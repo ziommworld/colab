@@ -1,3 +1,5 @@
+from enum import Enum
+
 class RaceAlignment(Enum):
     PURIST = 'P'
     SAVAGE = 'S'
