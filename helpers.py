@@ -1,3 +1,5 @@
+import pandas as pd
+
 def sum_mods(modifiers, prop):
     """Sum up the specified property of a list of dictionaries."""
     return sum(modifier[prop] for modifier in modifiers if prop in modifier)
