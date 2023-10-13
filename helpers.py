@@ -19,7 +19,7 @@ def get_res(equipment, body_part):
 def get_df(client, sheet, worksheet):
     """Gets a worksheet from currently loaded sheet and transforms it into a dataframe"""
     sheet = client.open(sheet)
-    worksheet = google_sheet.worksheet(worksheet)
+    worksheet = sheet.worksheet(worksheet)
     data = worksheet.get_all_values()
     df = pd.DataFrame(data[1:], columns=data[0])
     return df
