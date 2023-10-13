@@ -14,3 +14,9 @@ def get_res(equipment, body_part):
 
      return (None, None)  # Return (None, None) if the body part is not found
 
+def get_df(worksheet_name):
+    """Gets a worksheet from currently loaded sheet and transforms it into a dataframe"""
+    worksheet = sheet.worksheet(worksheet_name)
+    data = worksheet.get_all_values()
+    df = pd.DataFrame(data[1:], columns=data[0])
+    return df
