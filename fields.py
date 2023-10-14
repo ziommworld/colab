@@ -58,6 +58,7 @@ def get_selector(id, dataframe, column, selection):
 
     def reset_dropdown(button):
       dropdown.value = None
+      label.value = ''
 
     dropdown.observe(update_dropdown)
     slider.observe(update_slider)
