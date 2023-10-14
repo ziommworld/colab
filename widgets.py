@@ -8,12 +8,12 @@ def get_selector(id: str, dataframe, column: str, selections: dict):
         description='Choose:',
     )
 
-    output = widgets.Output()
+    # output = widgets.Output()
 
     def on_dropdown_change(change):
         if change['type'] == 'change' and change['name'] == 'value':
             # Clear the previous output
-            output.clear_output()
+            # output.clear_output()
 
             # Get the selected value from the dropdown
             selected_value = change['new']
@@ -46,5 +46,3 @@ def get_selector(id: str, dataframe, column: str, selections: dict):
     box = widgets.HBox([dropdown, slider])
     
     display(box)
-
-    return output
