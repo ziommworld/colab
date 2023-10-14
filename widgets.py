@@ -1,6 +1,6 @@
 import ipywidgets as widgets
 
-def get_selector(dataframe, column):
+def get_selector(id: str, dataframe, column: str, selections: dict):
 
     dropdown = widgets.Dropdown(
         options=dataframe[column],
@@ -21,9 +21,11 @@ def get_selector(dataframe, column):
             # Find the row in the original DataFrame (df) that matches the selected value
             selected_row = dataframe[dataframe[column] == selected_value]
 
+            selections[id] = selected_row
+
             # Display the selected row
-            with output:
-                display(dataframe[dataframe[column] == selected_value])
+            # with output:
+            #     display(selected_row)
 
     # Set up the event handler for the dropdown
     dropdown.observe(on_dropdown_change)
