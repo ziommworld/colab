@@ -1,3 +1,5 @@
+import ipywidgets as widgets
+
 def get_selector(dataframe, column):
 
     dropdown = widgets.Dropdown(
