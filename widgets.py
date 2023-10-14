@@ -23,7 +23,7 @@ def get_selector(dataframe, column):
 
             # Display the selected row
             with output:
-                display(selected_row)
+                display(dataframe[dataframe[column] == selected_value])
 
     # Set up the event handler for the dropdown
     dropdown.observe(on_dropdown_change)
