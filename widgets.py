@@ -41,9 +41,8 @@ def get_selector(dataframe, column):
     # slider.observe
 
     # Display the dropdown and output widgets
-    hbox = widgets.HBox([dropdown, slider])
-
-    # Create a horizontal box (HBox) to hold the dropdown and output widgets
-    vbox = widgets.VBox([hbox, output])
+    box = widgets.HBox([dropdown, slider])
     
-    display(vbox)
+    display(box)
+
+    return output
