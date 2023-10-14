@@ -43,7 +43,7 @@ def get_selector(id, dataframe, column, selection):
         if old_value is not None:
           del selection[old_value]
 
-        %clear
+        # %clear
         print(selection)
         
     def update_slider(change):
@@ -53,7 +53,7 @@ def get_selector(id, dataframe, column, selection):
         if (dropdown.value):
             selection[dropdown.value] = slider.value
         
-        %clear
+        # %clear
         print(selection)
 
     def reset_dropdown(button):
