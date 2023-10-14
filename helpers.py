@@ -28,4 +28,5 @@ def get_dict(client, sheet, worksheet):
     """Gets a worksheet from google sheet (Name+Value cols) and transforms it into a dataframe"""
     df = get_df(client, sheet, worksheet)
     df['Value'] = pd.to_numeric(df['Value'], errors='coerce')
-    return df
+    sorted_df = df.sort_values(by='Name')
+    return sorted_df
