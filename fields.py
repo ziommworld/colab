@@ -35,9 +35,10 @@ def get_selector(id, dataframe, column, selection):
       if change['name'] == 'label':
 
         new_value = change['new']
+        
         if new_value is not None:
           if not has_max_stack:
-            selection[new_value] = True
+            selection[new_value] = id
           else:
             slider.value = 0
             slider.disabled = False
