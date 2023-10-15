@@ -85,6 +85,8 @@ def get_selector(id, dataframe, column, selection):
 # ==========================================
 
 def modifiers_selection(traits_selection, attributes_selection, items_selection):
+  global client
+
   traits = widgets.Output()
   with traits:
     traits_df = get_df(client, 'test', 'traits').sort_values(by='Name')
