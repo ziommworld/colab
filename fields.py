@@ -14,8 +14,8 @@ def get_selector(id, dataframe, column, selection):
 
     if has_max_stack:
       slider = widgets.IntSlider(
-          value=1,
-          min=1,
+          value=0,
+          min=0,
           max=10,
           step=1,
           description='Number:',
@@ -39,7 +39,7 @@ def get_selector(id, dataframe, column, selection):
           if not has_max_stack:
             selection[new_value] = True
           else:
-            slider.value = 1
+            slider.value = 0
             slider.disabled = False
             slider.max = dataframe.loc[dataframe[column] == new_value, 'Stack'].values[0]
             label.value = f"max stack: {slider.max}"
