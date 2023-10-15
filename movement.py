@@ -146,9 +146,9 @@ def display_movement_matrix(init_ms = 15):
     tabs.children = [tab1_content, tab2_content, tab3_content]
 
     # Set tab titles
-    tabs.set_title(0, 'WALK')
-    tabs.set_title(1, 'RUN')
-    tabs.set_title(2, 'SPRINT')
+    tabs.set_title(0, 'Walk')
+    tabs.set_title(1, 'Run')
+    tabs.set_title(2, 'Sprint')
 
     # Create a slider for ms
     ms_slider = widgets.IntSlider(value=init_ms, min=1, max=20, description='ms')
