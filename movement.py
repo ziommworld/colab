@@ -1,4 +1,6 @@
 import pandas as pd
+from IPython.display import display, clear_output
+import ipywidgets as widgets
 
 def movement_matrix(ms, action):
     lgreen = '#A4D682'
@@ -70,7 +72,6 @@ def movement_matrix(ms, action):
     # Reordering the index levels to have the new index on top
     df = df.reorder_levels([name, 'COST', df.index.name])
 
-
     # Transposing the DataFrame to switch rows and columns
     df = df.T
 
@@ -120,7 +121,7 @@ def movement_matrix(ms, action):
     
     return df.style.applymap(highlight_cells)
 
-# ==========================================s
+# ++++++++
 
 def display_movement_matrix(init_size = 15):
     tab1_content = widgets.Output()
