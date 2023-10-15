@@ -123,7 +123,7 @@ def movement_matrix(ms, action):
 
 # ++++++++
 
-def display_movement_matrix(init_size = 15):
+def display_movement_matrix(init_ms = 15):
     tab1_content = widgets.Output()
     tab2_content = widgets.Output()
     tab3_content = widgets.Output()
