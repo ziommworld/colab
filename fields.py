@@ -38,13 +38,13 @@ def get_selector(id, dataframe, column, selection):
         
         if new_value is not None:
           if not has_max_stack:
-            selection[new_value] = id
+            selection[new_value] = (True, id)
           else:
             slider.value = 0
             slider.disabled = False
             slider.max = dataframe.loc[dataframe[column] == new_value, 'Stack'].values[0]
             label.value = f"max stack: {slider.max}"
-            selection[new_value] = slider.value
+            selection[new_value] = (slider.value, id)
         else:
           if has_max_stack:
             slider.disabled = True
@@ -69,7 +69,7 @@ def get_selector(id, dataframe, column, selection):
           slider.value = change['new']
 
         if (dropdown.value):
-            selection[dropdown.value] = slider.value
+            selection[dropdown.value] = (slider.value, id)
         
         # %clear
         print(selection)
