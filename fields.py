@@ -18,7 +18,7 @@ def get_selector(id, dataframe, column, selection):
           min=0,
           max=10,
           step=1,
-          description='Number:',
+          description='Stacks:',
           disabled=True,
           continuous_update=False  # update the value only when the user releases the slider handle
       )
@@ -91,10 +91,11 @@ def modifiers_selection(client, traits_selection, attributes_selection, items_se
 
     trait_name_1, trait_stack_1 = get_selector('trait_1', traits_df, 'Name', traits_selection)
     trait_name_2, trait_stack_2 = get_selector('trait_2', traits_df, 'Name', traits_selection)
-    trait_name_3, trait_stack_2 = get_selector('trait_3', traits_df, 'Name', traits_selection)
-    trait_name_4, trait_stack_2 = get_selector('trait_4', traits_df, 'Name', traits_selection)
-    trait_name_5, trait_stack_2 = get_selector('trait_5', traits_df, 'Name', traits_selection)
-    trait_name_6, trait_stack_2 = get_selector('trait_6', traits_df, 'Name', traits_selection)
+    trait_name_3, trait_stack_3 = get_selector('trait_3', traits_df, 'Name', traits_selection)
+    trait_name_4, trait_stack_4 = get_selector('trait_4', traits_df, 'Name', traits_selection)
+    trait_name_5, trait_stack_5 = get_selector('trait_5', traits_df, 'Name', traits_selection)
+    trait_name_6, trait_stack_6 = get_selector('trait_6', traits_df, 'Name', traits_selection)
+    trait_name_7, trait_stack_7 = get_selector('trait_7', traits_df, 'Name', traits_selection)
 
   attributes = widgets.Output()
   with attributes:
@@ -102,21 +103,25 @@ def modifiers_selection(client, traits_selection, attributes_selection, items_se
 
     attribute_name_1, attribute_stack_1 = get_selector('attribute_1', attributes_df, 'Name', attributes_selection)
     attribute_name_2, attribute_stack_2 = get_selector('attribute_2', attributes_df, 'Name', attributes_selection)
-    attribute_name_3, attribute_stack_2 = get_selector('attribute_3', attributes_df, 'Name', attributes_selection)
-    attribute_name_4, attribute_stack_2 = get_selector('attribute_4', attributes_df, 'Name', attributes_selection)
-    attribute_name_5, attribute_stack_2 = get_selector('attribute_5', attributes_df, 'Name', attributes_selection)
-    attribute_name_6, attribute_stack_2 = get_selector('attribute_6', attributes_df, 'Name', attributes_selection)
+    attribute_name_3, attribute_stack_3 = get_selector('attribute_3', attributes_df, 'Name', attributes_selection)
+    attribute_name_4, attribute_stack_4 = get_selector('attribute_4', attributes_df, 'Name', attributes_selection)
+    attribute_name_5, attribute_stack_5 = get_selector('attribute_5', attributes_df, 'Name', attributes_selection)
+    attribute_name_6, attribute_stack_6 = get_selector('attribute_6', attributes_df, 'Name', attributes_selection)
+    attribute_name_7, attribute_stack_7 = get_selector('attribute_7', attributes_df, 'Name', attributes_selection)
 
   items = widgets.Output()
   with items:
     items_df = get_df(client, 'test', 'items').sort_values(by='Name')
 
-    equipment_head, equipment_stack_1 = get_selector('head_eq', items_df, 'Name', items_selection)
-    equipment_torso, equipment_stack_2 = get_selector('torso_eq', items_df, 'Name', items_selection)
-    equipment_arms, equipment_stack_2 = get_selector('arms_eq', items_df, 'Name', items_selection)
-    equipment_legs, equipment_stack_2 = get_selector('legs_eq', items_df, 'Name', items_selection)
-    equipment_weapon_1, equipment_stack_2 = get_selector('wpn_eq_1', items_df, 'Name', items_selection)
-    equipment_weapon_2, equipment_stack_2 = get_selector('wpn_eq_2', items_df, 'Name', items_selection)
+    head_eq, head_eq_stack = get_selector('head_eq', items_df, 'Name', items_selection)
+    torso_eq, torso_eq_stack = get_selector('torso_eq', items_df, 'Name', items_selection)
+    arms_eq, arms_estack_q = get_selector('arms_eq', items_df, 'Name', items_selection)
+    legs_eq, legs_estack_q = get_selector('legs_eq', items_df, 'Name', items_selection)
+    wpn_eq_1, wpn_eq_stack_1 = get_selector('wpn_eq_1', items_df, 'Name', items_selection)
+    wpn_eq_2, wpn_eq_stack_2 = get_selector('wpn_eq_2', items_df, 'Name', items_selection)
+    item_name_1, item_stack_1 = get_selector('item_1', items_df, 'Name', attributes_selection)
+    item_name_2, item_stack_2 = get_selector('item_2', items_df, 'Name', attributes_selection)
+    item_name_3, item_stack_3 = get_selector('item_3', items_df, 'Name', attributes_selection)
 
   tabs = widgets.Tab()
   tabs.children = [traits, attributes, items]
