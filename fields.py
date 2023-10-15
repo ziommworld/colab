@@ -2,6 +2,7 @@ import ipywidgets as widgets
 
 def get_selector(id, dataframe, column, selection):
     """Test"""
+    has_max_stack = 'Stack' in dataframe.columns 
     options = dataframe[column]
 
     dropdown = widgets.Dropdown(
@@ -10,15 +11,18 @@ def get_selector(id, dataframe, column, selection):
         description=id,
     )
 
-    slider = widgets.IntSlider(
-        value=1,
-        min=1,
-        max=10,
-        step=1,
-        description='Number:',
-        disabled=True,
-        continuous_update=False  # update the value only when the user releases the slider handle
-    )
+    if has_max_stack:
+      slider = widgets.IntSlider(
+          value=1,
+          min=1,
+          max=10,
+          step=1,
+          description='Number:',
+          disabled=True,
+          continuous_update=False  # update the value only when the user releases the slider handle
+      )
+    else:
+      slider = None
     
     label = widgets.Label(value="")
 
@@ -28,16 +32,20 @@ def get_selector(id, dataframe, column, selection):
 
     def update_dropdown(change):
       if change['name'] == 'label':
-        slider.value = 1
 
         new_value = change['new']
         if new_value is not None:
-          slider.disabled = False
-          slider.max = dataframe.loc[dataframe[column] == new_value, 'Stack'].values[0]
-          label.value = f"max stack: {slider.max}"
-          selection[new_value] = slider.value
+          if not has_max_stack:
+            selection[new_value] = True
+          else:
+            slider.value = 1
+            slider.disabled = False
+            slider.max = dataframe.loc[dataframe[column] == new_value, 'Stack'].values[0]
+            label.value = f"max stack: {slider.max}"
+            selection[new_value] = slider.value
         else:
-          slider.disabled = True
+          if has_max_stack:
+            slider.disabled = True
         
         old_value = change['old']
         if old_value is not None:
@@ -46,9 +54,17 @@ def get_selector(id, dataframe, column, selection):
         # %clear
         print(selection)
         
-    def update_slider(change):
-      if change['name'] == 'value':
-        slider.value = change['new']
+    def reset_dropdown(button):
+      dropdown.value = None
+      label.value = ''
+
+    dropdown.observe(update_dropdown)
+    button.on_click(reset_dropdown)
+
+    if has_max_stack:
+      def update_slider(change):
+        if change['name'] == 'value':
+          slider.value = change['new']
 
         if (dropdown.value):
             selection[dropdown.value] = slider.value
@@ -56,16 +72,10 @@ def get_selector(id, dataframe, column, selection):
         # %clear
         print(selection)
 
-    def reset_dropdown(button):
-      dropdown.value = None
-      label.value = ''
-
-    dropdown.observe(update_dropdown)
-    slider.observe(update_slider)
-    button.on_click(reset_dropdown)
-
-    # Display the dropdown and output widgets
-    box = widgets.HBox([dropdown, slider, button, label])
+      slider.observe(update_slider)
+      box = widgets.HBox([dropdown, slider, button, label])
+    else:
+      box = widgets.HBox([dropdown, button, label])
 
     display(box)
 
