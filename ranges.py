@@ -2,12 +2,13 @@ import pandas as pd
 from IPython.display import display, clear_output
 import ipywidgets as widgets
 
+
 def range_matrix(size, half, full):
-    lgreen = '#A4D682'
-    dgreen = '#6B7823'
-    blue = '#4078A4'
-    orange = '#FF8C00'
-    red = '#FF5050'
+    lgreen = "#A4D682"
+    dgreen = "#6B7823"
+    blue = "#4078A4"
+    orange = "#FF8C00"
+    red = "#FF5050"
 
     melee = 3
     reaching = 6
@@ -28,7 +29,9 @@ def range_matrix(size, half, full):
     center = size // 2  # Central point of the matrix
 
     # Create DataFrame with modified distances from the origin
-    df = pd.DataFrame(index=range(-center, center + 1), columns=range(-center, center + 1))
+    df = pd.DataFrame(
+        index=range(-center, center + 1), columns=range(-center, center + 1)
+    )
 
     # Populate the DataFrame
     for i in df.index:
@@ -36,28 +39,30 @@ def range_matrix(size, half, full):
             df.at[i, j] = modified_distance_from_origin(i, j)
 
     def highlight_cells(value):
-      if (half is None and full is None):
-        if value <= melee:
-            return f'background-color: {lgreen}'
-        elif value <= reaching:
-            return f'background-color: {dgreen}'
-        elif value <= short:
-            return f'background-color: {blue}'
-        elif value <= mid:
-            return f'background-color: {orange}'  
-        elif value <= long:
-            return f'background-color: {red}'  
-      else: # explosions
-        if value <= half:
-            return f'background-color: {red}'
-        elif value <= full:
-            return f'background-color: {orange}'
-    
+        if half is None and full is None:
+            if value <= melee:
+                return f"background-color: {lgreen}"
+            elif value <= reaching:
+                return f"background-color: {dgreen}"
+            elif value <= short:
+                return f"background-color: {blue}"
+            elif value <= mid:
+                return f"background-color: {orange}"
+            elif value <= long:
+                return f"background-color: {red}"
+        else:  # explosions
+            if value <= half:
+                return f"background-color: {red}"
+            elif value <= full:
+                return f"background-color: {orange}"
+
     return df.style.applymap(highlight_cells)
+
 
 # ++++++++
 
-def display_range_matrix(init_ms = 15):
+
+def display_range_matrix(init_ms=15):
     tab1_content = widgets.Output()
     tab2_content = widgets.Output()
     tab3_content = widgets.Output()
@@ -84,10 +89,10 @@ def display_range_matrix(init_ms = 15):
     tabs.children = [tab1_content, tab2_content, tab3_content, tab4_content]
 
     # Set tab titles
-    tabs.set_title(0, 'Ranges')
-    tabs.set_title(1, 'Explosive')
-    tabs.set_title(2, 'Hexplosive')
-    tabs.set_title(3, 'Sexplsove')
+    tabs.set_title(0, "Ranges")
+    tabs.set_title(1, "Explosive")
+    tabs.set_title(2, "Hexplosive")
+    tabs.set_title(3, "Sexplsove")
 
     # Display the combined widget
     display_range_matrix(None)

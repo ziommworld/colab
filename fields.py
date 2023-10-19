@@ -1,3 +1,4 @@
+from IPython.display import display
 import ipywidgets as widgets
 from helpers import get_df
 
