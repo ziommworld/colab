@@ -35,3 +35,9 @@ def get_dict(client, sheet, worksheet):
     df["Value"] = pd.to_numeric(df["Value"], errors="coerce")
     sorted_df = df.sort_values(by="Name")
     return sorted_df
+
+def set_sheet(client, sheet, worksheet, df):
+    """Sets a dataframe into a worksheet from google sheet"""
+    sheet = client.open(sheet)
+    worksheet = sheet.worksheet(worksheet)
+    worksheet.update([df.columns.values.tolist()] + df.values.tolist())
