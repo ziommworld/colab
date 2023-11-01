@@ -443,4 +443,3 @@ def display_tracker():
     display(row_2, row_345, row_7)
 
 
-display_tracker()
