@@ -38,6 +38,6 @@ def get_dict(client, sheet, worksheet):
 
 def set_sheet(client, sheet, worksheet, df):
     """Sets a dataframe into a worksheet from google sheet"""
-    sheet = client.open(sheet)
-    worksheet = sheet.worksheet(worksheet)
-    worksheet.update([df.columns.values.tolist()] + df.values.tolist())
+    spreadsheet = client.open(sheet)
+    worksheet = spreadsheet.worksheet(worksheet)
+    worksheet.update('A1', [df.columns.tolist()] + df.values.tolist())
