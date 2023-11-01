@@ -41,3 +41,9 @@ def set_sheet(client, sheet, worksheet, df):
     spreadsheet = client.open(sheet)
     worksheet = spreadsheet.worksheet(worksheet)
     worksheet.update('A1', [df.columns.tolist()] + df.values.tolist())
+
+def create_sheet(client, sheet, worksheet, df):
+    """Sets a dataframe into a worksheet from google sheet"""
+    spreadsheet = client.open(sheet)
+    worksheet = spreadsheet.add_worksheet(title=worksheet, rows=str(df.shape[0]), cols=str(df.shape[1]))
+    worksheet.update([df.columns.tolist()] + df.values.tolist())
