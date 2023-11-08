@@ -9,7 +9,6 @@ class CharacterBody:
         self.total_hit_points = total_hit_points
 
         self.init_equipment(equipment)
-        # print(equipment)
         self.init_body_parts(self.body_type, self.total_hit_points, self.equipment)
 
     def init_body_parts(self, body_type, total_hit_points, equipment):
@@ -41,10 +40,11 @@ class CharacterBody:
         Initialize the character's equipment based on the provided configuration.
         """
         equipment = {}
-        for body_part, equipment_config in equipment_config.items():
+        for body_part in BODY_CONFIGS[self.body_type].keys():
+            armor_value = equipment_config.get(body_part, {}).get("armor_value", 0)
             equipment[body_part] = Equipment(
                 body_part=body_part,
-                armor_value=equipment_config.get("armor_value", 0),
+                armor_value=armor_value,
             )
 
         self.equipment = equipment

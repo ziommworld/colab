@@ -1,4 +1,6 @@
+import random
 from src import BodyType
+from src.common import to_snake_case
 
 from .action import Action
 from .character_body import CharacterBody
@@ -7,6 +9,7 @@ from .character_body import CharacterBody
 class Character:
     def __init__(self, config):
         self.load_config(config)
+        self.id = self.generate_id(self.player_name, self.character_name)
 
         self.init_action_pool()
         self.combat_log = []
@@ -26,18 +29,31 @@ class Character:
         self.round_ap = 4
         self.previous_round_ap = 0  # used to calculate stamina penalty
 
+    @staticmethod
+    def generate_id(player_name, character_name):
+        """
+        Generate a unique id from player_name and character_name in snake case.
+        """
+        snake_case_player_name = to_snake_case(player_name)
+        snake_case_character_name = to_snake_case(character_name)
+        return f"{snake_case_player_name}_{snake_case_character_name}"
+
     def load_config(self, config):
         self.character_name = config.get("character_name", "Unknown")
         self.player_name = config.get("player_name", "Player")
         self.body_type = config.get("body_type", BodyType.HUMANOID)
 
-        self.move_speed = config["move_speed"]
-        self.stamina = config["stamina"]
-        self.total_hit_points = config["total_hit_points"]
-        self.initiative_score = config["initiative_score"]
+        self.move_speed = config.get(
+            "move_speed", 5
+        )  # Assuming a default move speed of 5
+        self.stamina = config.get("stamina", 10)  # Assuming a default stamina of 10
+        self.total_hit_points = config.get("total_hit_points", 100)  # Default HP of 100
+        self.initiative_score = config.get(
+            "initiative_score", 10
+        )  # Default initiative score of 10
 
-        self.inventory = config["inventory"]
-        self.modifiers = config["modifiers"]
+        self.inventory = config.get("inventory", {})  # Default empty inventory
+        self.modifiers = config.get("modifiers", [])  # Default empty list of modifiers
 
     def init_action_pool(self):
         # Initialize an empty dictionary for the action pool
@@ -56,6 +72,20 @@ class Character:
                 # Add the action to the action pool using the action ID as the key
                 self.action_pool[action.id] = action
 
+    def roll_for_initiative(self, initiative_roll=None):
+        """
+        Roll for initiative using a D20 or use the provided initiative_roll if given.
+        """
+        # If an initiative_roll is provided, use it, otherwise roll a D20
+        roll = initiative_roll if initiative_roll is not None else random.randint(1, 20)
+        self.initiative_score = roll + self.composure
+
+        self.log_event(
+            description=f"Rolled for initiative: {roll} + {self.composure} (Composure) = {self.initiative_score}",
+        )
+
+        return self.initiative_score
+
     def play_action(self, action_name, ap_spent=None):
         action_id = action_name if ap_spent is None else f"{action_name}_{ap_spent}"
 
@@ -72,9 +102,6 @@ class Character:
                 f"AP cost '{ap_spent}' not valid for action '{action_name}'."
             )
 
-        # Perform the action using its perform method
-        action_result = action.perform(self)
-
         # Deduct AP cost and apply the action
         self.round_ap -= action.ap_cost
         self.stamina -= action.stamina_cost
@@ -88,19 +115,11 @@ class Character:
             ap_cost=action.ap_cost,
         )
 
-        return action_result
-
     def take_damage(
         self, damage_amount, body_part_type, damage_source, modality=None, dmg_roll=None
     ):
         """
         Apply damage to a specific body part of the character.
-
-        :param damage_amount: The amount of damage to be applied.
-        :param body_part_type: The type of body part being damaged.
-        :param damage_source: A dictionary or object detailing the source and type of damage.
-        :param modality: The modality of the damage, if applicable.
-        :param dmg_roll: The result of a damage roll, if applicable.
         """
         # Locate the body part in the character's body
         body_part = self.body.get_body_part(body_part_type)
