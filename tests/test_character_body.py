@@ -2,7 +2,7 @@ import unittest
 from unittest import mock
 
 from src import BODY_CONFIGS, BodyPartType, BodyType
-from src.character_body import CharacterBody
+from src.character.character_body import CharacterBody
 
 
 # Test cases for CharacterBody
@@ -13,10 +13,10 @@ class TestCharacterBody(unittest.TestCase):
         self.equipment = {
             BodyPartType.HEAD: mock.Mock(armor_value=5),
             BodyPartType.TORSO: mock.Mock(armor_value=7),
-            BodyPartType.L_ARM: mock.Mock(armor_value=3),
-            BodyPartType.R_ARM: mock.Mock(armor_value=3),
-            BodyPartType.L_LEG: mock.Mock(armor_value=4),
-            BodyPartType.R_LEG: mock.Mock(armor_value=4),
+            BodyPartType.L_ARM_1: mock.Mock(armor_value=3),
+            BodyPartType.R_ARM_1: mock.Mock(armor_value=3),
+            BodyPartType.L_LEG_1: mock.Mock(armor_value=4),
+            BodyPartType.R_LEG_1: mock.Mock(armor_value=4),
         }
 
         self.character_body = CharacterBody(

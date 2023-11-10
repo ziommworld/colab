@@ -24,21 +24,3 @@ class Environment:
 
     # Additional properties and methods related to the environment
     # ...
-
-
-class Complex:
-    def __init__(self, environments, additional_properties=None):
-        self.environments = (
-            environments  # A list of Environment instances that form the Complex
-        )
-        self.additional_properties = additional_properties or {}
-
-    def add_environment(self, environment):
-        self.environments.append(environment)
-
-    # Additional methods to handle Complex-specific logic
-    # ...
-
-    def get_complex_boundaries(self):
-        # This method would calculate the boundaries of the Complex
-        pass

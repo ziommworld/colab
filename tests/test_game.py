@@ -1,6 +1,6 @@
 import unittest
 
-from src.game import Game
+from src.scenario.game import Game
 
 
 class TestGame(unittest.TestCase):

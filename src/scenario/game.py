@@ -4,7 +4,7 @@ import random
 import gspread
 from google.auth import default
 
-from src.character import Character
+from src.character.character import Character
 
 
 class Game:

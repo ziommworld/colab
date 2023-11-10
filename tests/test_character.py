@@ -1,6 +1,6 @@
 import unittest
 
-from src.character import Character
+from src.character.character import Character
 from src import BodyType
 
 

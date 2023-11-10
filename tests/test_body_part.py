@@ -3,7 +3,7 @@
 import unittest
 from unittest import mock
 
-from src.body_part import BodyPart
+from src.character.body_part import BodyPart
 from src import BODY_CONFIGS, BodyPartType, BodyType, InjuryType
 
 

@@ -1,11 +1,11 @@
 import random
 from src import BodyType, InjuryType
-from src.common import to_snake_case
-from src.errors import InvalidBodyPartError
-from src.state import State
+from src.shared.common import to_snake_case
+from src.shared.errors import InvalidBodyPartError
+from src.character.state import State
 
-from .action import Action
-from .character_body import CharacterBody
+from src.character.action import Action
+from src.character.character_body import CharacterBody
 
 
 class Character:

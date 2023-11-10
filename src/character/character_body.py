@@ -1,7 +1,7 @@
 from src import BODY_CONFIGS, BodyPartType
-from src.body_part import BodyPart
-from src.equipment import Equipment
-from src.errors import InvalidBodyPartError
+from src.character.body_part import BodyPart
+from src.character.equipment import Equipment
+from src.shared.errors import InvalidBodyPartError
 
 
 class CharacterBody:
