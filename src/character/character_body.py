@@ -1,6 +1,7 @@
 from src import BODY_CONFIGS, BodyPartType
 from src.body_part import BodyPart
 from src.equipment import Equipment
+from src.errors import InvalidBodyPartError
 
 
 class CharacterBody:
@@ -19,7 +20,9 @@ class CharacterBody:
 
         # Divide total HP into body parts equally
         hp_segment = total_hit_points // num_body_parts
-        hp_distribution = {body_part: hp_segment for body_part in BODY_CONFIGS[body_type].keys()}
+        hp_distribution = {
+            body_part: hp_segment for body_part in BODY_CONFIGS[body_type].keys()
+        }
 
         # Add up remainder HP
         hp_distribution[BodyPartType.TORSO] += total_hit_points % num_body_parts
@@ -54,3 +57,33 @@ class CharacterBody:
 
     def get_body_part(self, body_part_type):
         return self.body_parts.get(body_part_type, None)
+
+    def get_injuries(self):
+        """
+        Return a dictionary of injuries aggregated by type across all body parts.
+        """
+        combined_injuries = {}
+
+        # Iterate over each body part and combine the injury counters
+        for body_part in self.body_parts.values():
+            for injury_type, count in body_part.injury_counter.items():
+                if count > 0:  # Only include injuries that are present
+                    if injury_type in combined_injuries:
+                        combined_injuries[injury_type] += count
+                    else:
+                        combined_injuries[injury_type] = count
+
+        return combined_injuries
+
+    def get_damage(self, body_part_type, damage_amount, damage_type, abilities):
+        """
+        Apply damage to a specified body part.
+        """
+        # Find the corresponding BodyPart object
+        body_part = self.get_body_part(body_part_type)
+
+        # If the body part exists, call its receive_damage() method
+        if body_part:
+            body_part.receive_damage(damage_amount, damage_type, abilities)
+        else:
+            raise InvalidBodyPartError(body_part_type)

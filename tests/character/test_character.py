@@ -75,7 +75,7 @@ class TestCharacter(unittest.TestCase):
         self.character.round_ap = 1
         self.character.stamina = 5
         self.character.total_hit_points = 90
-        self.character.round_reset()
+        self.character.end_round()
         self.assertEqual(self.character.round_ap, 4)
         self.assertEqual(
             self.character.stamina, 4
