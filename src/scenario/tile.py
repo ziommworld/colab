@@ -1,4 +1,7 @@
-class Tile(Environment):
+from src.scenario import environment
+
+
+class Tile(environment):
     # Represents a basic building block of the game's world
     def __init__(self, coordinates, tile_type):
         super().__init__(coordinates)

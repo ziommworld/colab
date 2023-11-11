@@ -39,22 +39,31 @@ class InjuryType(Enum):
     IMMOBILIZE = "immobilize"  # leg injury
     DISABLE = "disable"  # arm injury
 
+class GeneralProficiency(Enum):
+    INTELLIGENCE = "int_gp"
+    STRENGTH = "str_gp"
+    DEXTERITY = "dex_gp"
+    TOUGHNESS = "tgh_gp"
+    WISDOM = "wis_gp"
+    MEDICINE = "med_gp"
+    STEALTH = "sth_gp"
+    PERCEPTION = "per_gp"
 
 class CombatProficiency(Enum):
-    DODGE = "dodge"
-    BLOCK = "block"
+    DODGE = "dodge_cp"
+    BLOCK = "block_cp"
 
-    MMA = "mma"
-    FINESSE = "finesse"
-    CRUDE = "crude"
+    MMA = "mma_cp"
+    FINESSE = "finesse_cp"
+    CRUDE = "crude_cp"
 
-    ARCHERY = "archery"
-    FIREARM = "firearm"
-    THROWN = "thrown"
+    ARCHERY = "archery_cp"
+    FIREARM = "firearm_cp"
+    THROWN = "thrown_cp"
 
-    BITE = "bite"
-    CLAW = "claw"
-    STING = "sting"
+    BITE = "bite_cp"
+    CLAW = "claw_cp"
+    STING = "sting_cp"
 
 
 class DamageType(Enum):

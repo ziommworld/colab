@@ -1,11 +1,19 @@
 from src.scenario.environment import Environment
 
+
 class Blueprint(Environment):
-    # Represents a design or layout made up of multiple Tiles
-    def __init__(self, coordinates, blueprint_name, tiles):
-        super().__init__(coordinates)
+    def __init__(self, anchor_point, blueprint_name):
+        self.anchor_point = anchor_point  # The anchor point coordinates, e.g., "x0y0z0"
         self.blueprint_name = blueprint_name
-        self.tiles = tiles  # A list or dictionary of Tile objects
+        self.tiles = {}  # A dictionary to map tiles with their position and orientation
+
+    def add_tile(self, tile, position, orientation):
+        # position: Tuple (x, y, z) representing position relative to the anchor
+        # orientation: Tuple (roll, pitch, yaw) representing the tile's orientation
+        self.tiles[tile] = {"position": position, "orientation": orientation}
 
     def describe(self):
-        return f"Blueprint '{self.blueprint_name}' at {self.coordinates} with {len(self.tiles)} tiles"
+        description = f"Blueprint '{self.blueprint_name}' at {self.anchor_point} with {len(self.tiles)} tiles:\n"
+        for tile, properties in self.tiles.items():
+            description += f"  - {tile.describe()} at position {properties['position']} with orientation {properties['orientation']}\n"
+        return description

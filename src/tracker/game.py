@@ -16,9 +16,8 @@ class Game:
         self.game_map = {}
         self.game_matrix = None  # game_map in dataframe form
         self.game_storage = None  # game_state in dataframe form
-        self.characters = []  # characters array sorted by initiative
+        self.characters = {}  # characters array sorted by initiative
         self.current_idx = 0  # index of character currently on initiative
-        self.character_map = {}  # map from character id to character object
 
         try:
             self.load_game()
@@ -55,11 +54,10 @@ class Game:
         }
         return pd.DataFrame(game_data)
 
-    def decode_game_state(self, df):
+    def decode_game_state(self, df): # TODO complete other fields
         # Convert the DataFrame back into the game state
         self.game_phase = df["game_phase"][0]
         self.current_idx = df["current_idx"][0]
-        self.characters = [Character(char_config) for char_config in df["characters"][0]]
 
     def save_game(self):
         df = self.encode_game_state()
@@ -69,11 +67,31 @@ class Game:
         worksheet.update([df.columns.values.tolist()] + df.values.tolist())
 
     def load_game(self):
-        # Load data from the worksheet into a pandas DataFrame
-        data = self.worksheet.get_all_records()
-        df = pd.DataFrame(data)
-        if not df.empty:
-            self.decode_game_state(df)
+        # Load data from the game state worksheet into a pandas DataFrame
+        game_state_data = self.game_storage_worksheet.get_all_records()
+        game_state_df = pd.DataFrame(game_state_data)
+
+        if not game_state_df.empty:
+            # Decode the basic game state
+            self.decode_game_state(game_state_df)
+
+            # Load character data
+            self.load_character_data(game_state_df)
+            
+    def load_character_data(self, game_state_df):
+        # Extract character IDs from the game state
+        character_ids = game_state_df['characters'].unique()  # Assuming 'characterId' is the column name
+
+        # Load data for each character
+        for character_id in character_ids:
+            character_worksheet = self.spreadsheet.worksheet(character_id)
+            character_data = character_worksheet.get_all_records()
+            character_df = pd.DataFrame(character_data)
+
+            # Process each character's data
+            # For example, store it in a dictionary or perform further decoding
+            self.add_character(character_df)
+     
 
     def add_character(self, character_config):
         """
@@ -81,7 +99,6 @@ class Game:
         """
         character = Character(character_config)
         self.character_map[character.id] = character
-        self.characters.append(character)
 
     def set_character_order(self, character_order=None):
         """

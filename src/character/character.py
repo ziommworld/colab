@@ -2,9 +2,9 @@ import random
 from src import BodyType, InjuryType
 from src.shared.common import to_snake_case
 from src.shared.errors import InvalidBodyPartError
-from src.character.state import State
+from src.engine.state import State
 
-from src.character.action import Action
+from src.engine.skill import BASIC_SKILLS, Action, Reaction
 from src.character.character_body import CharacterBody
 
 
@@ -67,7 +67,7 @@ class Character:
         # Loop through each modifier that the character has
         for modifier in self.modifiers:
             # Get the list of action configurations from the modifier
-            action_configs = modifier.actions
+            action_configs = modifier.skills
 
             # Loop through each action configuration and create an Action instance
             for action_config in action_configs:
@@ -76,6 +76,16 @@ class Character:
 
                 # Add the action to the action pool using the action ID as the key
                 self.action_pool[action.id] = action
+
+    def load_skills(self, skill_ids):
+        for skill_id in skill_ids:
+            skill = BASIC_SKILLS.get(skill_id)
+            if skill:
+                if isinstance(skill, Action):
+                    self.action_pool[skill_id] = skill
+                elif isinstance(skill, Reaction):
+                    self.reaction_pool[skill_id] = skill
+                # Optionally handle Interactions
 
     def roll_for_initiative(self, initiative_roll=None):
         """
@@ -101,12 +111,12 @@ class Character:
         # Find if the state already exists
         existing_state = self.states_map.get(state_name)
 
-        if existing_state :
+        if existing_state:
             if has_intensity:
                 existing_state.increase_intensity(intensity)
 
             if has_duration:
-                existing_state.duration += duration # ! check if this is correct
+                existing_state.duration += duration  # ! check if this is correct
         else:
             # Add a new state if it doesn't exist
             new_state = State(state_name, duration, intensity)
