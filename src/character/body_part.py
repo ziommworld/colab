@@ -1,5 +1,3 @@
-import random
-
 from src import BODY_CONFIGS, BodyPartType, DamageType, InjuryType
 
 

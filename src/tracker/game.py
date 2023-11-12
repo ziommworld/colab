@@ -2,9 +2,9 @@ from datetime import datetime
 import pandas as pd
 import random
 import gspread
-from google.auth import default
 
 from src.character.character import Character
+from src.shared.client import GoogleSheetsClient
 
 
 class Game:
@@ -25,25 +25,8 @@ class Game:
             pass
         
     def init_google_sheets(self, sheet_name=f"game_{datetime.now().strftime("%Y%m%d%H%M%S")}"):
-        # Initialize gspread client and open the sheet
-        self.online = True
-        try:
-            credentials, _ = default()
-        except:
-            self.online = False
-            
-        if self.online:
-            self.client = gspread.authorize(credentials)
-            self.sheet_name = sheet_name
-            self.spreadsheet = self.client.open(self.sheet_name)
-            try:
-                self.game_storage_worksheet = self.spreadsheet.worksheet("game_state")
-            except gspread.WorksheetNotFound:
-                self.game_storage_worksheet = self.spreadsheet.add_worksheet(
-                    "game_state", rows="681", cols="420"
-                )
-        else:
-            pass  # Placeholder for offline storage
+        self.client = GoogleSheetsClient()
+        # self.game_state_worksheet = self.client.get_or_add_worksheet(sheet_name, "game_state")
             
     def encode_game_state(self):
         # Convert the game state into a dictionary that is compatible with pandas DataFrame
@@ -68,7 +51,7 @@ class Game:
 
     def load_game(self):
         # Load data from the game state worksheet into a pandas DataFrame
-        game_state_data = self.game_storage_worksheet.get_all_records()
+        game_state_data = self.game_state_worksheet.get_all_records()
         game_state_df = pd.DataFrame(game_state_data)
 
         if not game_state_df.empty:

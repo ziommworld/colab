@@ -39,6 +39,7 @@ class InjuryType(Enum):
     IMMOBILIZE = "immobilize"  # leg injury
     DISABLE = "disable"  # arm injury
 
+
 class GeneralProficiency(Enum):
     INTELLIGENCE = "int_gp"
     STRENGTH = "str_gp"
@@ -48,6 +49,7 @@ class GeneralProficiency(Enum):
     MEDICINE = "med_gp"
     STEALTH = "sth_gp"
     PERCEPTION = "per_gp"
+
 
 class CombatProficiency(Enum):
     DODGE = "dodge_cp"

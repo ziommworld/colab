@@ -2,9 +2,9 @@ import random
 from src import BodyType, InjuryType
 from src.shared.common import to_snake_case
 from src.shared.errors import InvalidBodyPartError
-from src.engine.state import State
+from src.tracker.state import State
 
-from src.engine.skill import BASIC_SKILLS, Action, Reaction
+from src.tracker.skill import BASIC_SKILLS, Action, Reaction
 from src.character.character_body import CharacterBody
 
 
