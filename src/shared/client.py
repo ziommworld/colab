@@ -1,5 +1,6 @@
 import gspread
 from google.auth import default
+from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 
 from src.shared.common import list_converter, try_convert_to_numeric, tuple_converter
@@ -7,140 +8,125 @@ from src.shared.common import list_converter, try_convert_to_numeric, tuple_conv
 
 class GoogleSheetsClient:
     def __init__(self):
-        self.online = True
+        # Try to detect if we are running on Google Colab
         try:
-            credentials, _ = default()
-        except:
-            self.online = False
+            import google.colab
 
-        if self.online:
-            self.client = gspread.authorize(credentials)
+            self.is_colab = True
+        except ImportError:
+            self.is_colab = False
+
+            # Authenticate using Colab's authentication methods
+            from google.colab import auth
+
+            auth.authenticate_user()
+            from google.auth import default
+
+            credentials, _ = default()
         else:
-            pass
+            # Authenticate using a service account in a local environment
+            scope = [
+                "https://spreadsheets.google.com/feeds",
+                "https://www.googleapis.com/auth/drive",
+            ]
+            key_file_path = "../env/colab.json"  # Ensure this path is correct in your local environment
+            credentials = ServiceAccountCredentials.from_json_keyfile_name(
+                key_file_path, scope
+            )
+
+        self.client = gspread.authorize(credentials)
 
     def get_spreadsheet(self, spreadsheet_name):
-        if self.online:
-            return self.client.open(spreadsheet_name)
-        else:
-            pass
+        return self.client.open(spreadsheet_name)
 
     def get_worksheet(self, spreadsheet_name, worksheet_name):
-        if self.online:
-            spreadsheet = self.client.open(spreadsheet_name)
-            return spreadsheet.worksheet(worksheet_name)
-        else:
-            pass
+        spreadsheet = self.get_spreadsheet(spreadsheet_name)
+        return spreadsheet.worksheet(worksheet_name)
 
     def get_df(
         self, spreadsheet_name, worksheet_name, tuple_columns=None, list_columns=None
     ):
-        if self.online:
-            worksheet = self.get_worksheet(spreadsheet_name, worksheet_name)
-            records = worksheet.get_all_records()
-            df = pd.DataFrame(records)
+        worksheet = self.get_worksheet(spreadsheet_name, worksheet_name)
+        records = worksheet.get_all_records()
+        df = pd.DataFrame(records)
 
-            # Apply tuple converter to specified tuple columns
-            if tuple_columns:
-                for column in tuple_columns:
-                    if column in df.columns:
-                        df[column] = df[column].apply(tuple_converter)
+        # Apply tuple converter to specified tuple columns
+        if tuple_columns:
+            for column in tuple_columns:
+                if column in df.columns:
+                    df[column] = df[column].apply(tuple_converter)
 
-            # Apply list converter to specified list columns
-            if list_columns:
-                for column in list_columns:
-                    if column in df.columns:
-                        df[column] = df[column].apply(list_converter)
+        # Apply list converter to specified list columns
+        if list_columns:
+            for column in list_columns:
+                if column in df.columns:
+                    df[column] = df[column].apply(list_converter)
 
-            return df
-        else:
-            # Handle the offline case as necessary, possibly raise an error or return an empty DataFrame
-            return None
+        return df
 
     def get_dict(self, spreadsheet_name, worksheet_name):
-        if self.online:
-            df = self.get_df(spreadsheet_name, worksheet_name)
+        df = self.get_df(spreadsheet_name, worksheet_name)
 
-            # Apply the function to the 'Value' column
-            df["Value"] = df["Value"].apply(try_convert_to_numeric)
+        # Apply the function to the 'Value' column
+        df["Value"] = df["Value"].apply(try_convert_to_numeric)
 
-            # Convert the DataFrame to a dictionary with 'Name' as keys and 'Value' as values
-            df_dict = pd.Series(df["Value"].values, index=df["Name"]).to_dict()
-            return df_dict
-        else:
-            pass
+        # Convert the DataFrame to a dictionary with 'Name' as keys and 'Value' as values
+        df_dict = pd.Series(df["Value"].values, index=df["Name"]).to_dict()
+        return df_dict
 
     def update_worksheet(self, spreadsheet_name, worksheet_name, df):
-        if self.online:
-            spreadsheet = self.client.open(spreadsheet_name)
-            worksheet = spreadsheet.worksheet(worksheet_name)
-            worksheet.update([df.columns.values.tolist()] + df.values.tolist())
-        else:
-            pass
+        spreadsheet = self.client.open(spreadsheet_name)
+        worksheet = spreadsheet.worksheet(worksheet_name)
+        worksheet.update([df.columns.values.tolist()] + df.values.tolist())
 
     def add_worksheet(self, spreadsheet_name, worksheet_name, df=pd.DataFrame()):
-        if self.online:
-            spreadsheet = self.client.open(spreadsheet_name)
+        spreadsheet = self.client.open(spreadsheet_name)
+        worksheet = spreadsheet.add_worksheet(
+            title=worksheet_name, rows=str(df.shape[0]), cols=str(df.shape[1])
+        )
+        worksheet.update([df.columns.values.tolist()] + df.values.tolist())
+
+    def get_or_add_worksheet(self, spreadsheet_name, worksheet_name, df=pd.DataFrame()):
+        spreadsheet = self.client.open(spreadsheet_name)
+        try:
+            worksheet = spreadsheet.worksheet(worksheet_name)
+        except gspread.WorksheetNotFound:
             worksheet = spreadsheet.add_worksheet(
                 title=worksheet_name, rows=str(df.shape[0]), cols=str(df.shape[1])
             )
             worksheet.update([df.columns.values.tolist()] + df.values.tolist())
-        else:
-            pass
-
-    def get_or_add_worksheet(self, spreadsheet_name, worksheet_name, df=pd.DataFrame()):
-        if self.online:
-            spreadsheet = self.client.open(spreadsheet_name)
-            try:
-                worksheet = spreadsheet.worksheet(worksheet_name)
-            except gspread.WorksheetNotFound:
-                worksheet = spreadsheet.add_worksheet(
-                    title=worksheet_name, rows=str(df.shape[0]), cols=str(df.shape[1])
-                )
-                worksheet.update([df.columns.values.tolist()] + df.values.tolist())
-            return worksheet
-        else:
-            pass
+        return worksheet
 
     def delete_worksheet(self, spreadsheet_name, worksheet_name):
-        if self.online:
-            spreadsheet = self.client.open(spreadsheet_name)
-            worksheet = spreadsheet.worksheet(worksheet_name)
-            spreadsheet.del_worksheet(worksheet)
-        else:
-            pass
+        spreadsheet = self.client.open(spreadsheet_name)
+        worksheet = spreadsheet.worksheet(worksheet_name)
+        spreadsheet.del_worksheet(worksheet)
 
     def clear_worksheet(self, spreadsheet_name, worksheet_name):
-        if self.online:
-            spreadsheet = self.client.open(spreadsheet_name)
-            worksheet = spreadsheet.worksheet(worksheet_name)
-            worksheet.clear()
-        else:
-            pass
+        spreadsheet = self.client.open(spreadsheet_name)
+        worksheet = spreadsheet.worksheet(worksheet_name)
+        worksheet.clear()
 
     def get_cell(self, spreadsheet_name, worksheet_name, cell="A1"):
-        if self.online:
-            worksheet = self.get_worksheet(spreadsheet_name, worksheet_name)
-            return worksheet.acell(cell).value
-        else:
-            pass
+        """Get the value of a cell."""
+        worksheet = self.get_worksheet(spreadsheet_name, worksheet_name)
+        return worksheet.acell(cell).value
 
     def set_cell(self, spreadsheet_name, worksheet_name, cell="A1", value=""):
-        if self.online:
-            worksheet = self.get_worksheet(spreadsheet_name, worksheet_name)
-            worksheet.update_acell(cell, value)
-        else:
-            pass
+        worksheet = self.get_worksheet(spreadsheet_name, worksheet_name)
+        worksheet.update_acell(cell, value)
 
     def get_range(self, spreadsheet_name, worksheet_name, range="A1:B2"):
-        if self.online:
-            worksheet = self.get_worksheet(spreadsheet_name, worksheet_name)
-            return worksheet.get(range)
-        else:
-            pass
+        worksheet = self.get_worksheet(spreadsheet_name, worksheet_name)
+        return worksheet.get(range)
 
-    def set_range(self, spreadsheet_name, worksheet_name, range="A1:B2", values=[]):
-        if self.online:
-            worksheet = self.get_worksheet(spreadsheet_name, worksheet_name)
-            worksheet.update(range, values)
-        else:
-            pass
+    def set_range(self, spreadsheet_name, worksheet_name, range, values=[]):
+        """
+        Sets a range of cells in a specified worksheet with given values.
+
+        Parameters:
+        range (str): Range of cells to update. Example: 'A1:B2'.
+        values (list): List of values to set in the specified range. Defaults to an empty list.
+        """
+        worksheet = self.get_worksheet(spreadsheet_name, worksheet_name)
+        worksheet.update(range, values)
