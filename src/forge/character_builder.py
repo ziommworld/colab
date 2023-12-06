@@ -4,7 +4,8 @@ from src.shared.client import GoogleSheetsClient
 
 
 class CharacterBuilder:
-    def __init__(self):
+    def __init__(self, props):
+        self.set_props(props)
         self.init_google_sheets()
         self.init_base_stats()
         self.init_budgets()
@@ -58,13 +59,13 @@ class CharacterBuilder:
         self.invalid_attributes = {}
         self.invalid_items = {}
 
-    def set_basic_settings(self, basic_settings):
+    def set_props(self, props):
         # Raises KeyError if not all required keys are present or invalid
-        self.name = basic_settings["name"]
-        self.level = basic_settings["level"]
-        self.body_type = basic_settings["body_type"]
-        self.race = basic_settings["race"]
-        self.alignment = basic_settings["alignment"]
+        self.name = props["name"]
+        self.level = props["level"]
+        self.body_type = props["body_type"]
+        self.race = props["race"]
+        self.alignment = props["alignment"]
 
     def set_trait(self, trait, stacks):
         if trait.id not in self.traits:
@@ -283,28 +284,28 @@ class CharacterBuilder:
         self.reload_build_pool()
         self.reload_unit_prices()
         self.recalculate_budgets()
-        self.recalculate_caps()
         self.recalculate_modifiers()
-        self.recalculate_base_stats()
+        self.recalculate_stats()
+        self.recalculate_caps()
 
     def reload_build_pool(self):
         self.traits_pool = self.client.get_df(
             "model",
             "traits",
             tuple_columns=["abilities"],
-            list_columns=["req_race", "req_alignment"],
+            list_columns=["req_race", "req_alignment", "req_body_type"],
         )
         self.attributes_pool = self.client.get_df(
             "model",
             "attributes",
             tuple_columns=["abilities"],
-            list_columns=["req_race", "req_alignment"],
+            list_columns=["req_race", "req_alignment", "req_body_type"],
         )
         self.items_pool = self.client.get_df(
             "model",
             "items",
             tuple_columns=["abilities"],
-            list_columns=["req_race", "req_alignment"],
+            list_columns=["req_race", "req_alignment", "req_body_type"],
         )
         self.skills = self.client.get_df("model", "skills")
         self.abilities = self.client.get_df("model", "abilities")
@@ -316,19 +317,37 @@ class CharacterBuilder:
         self.modifier_values = self.client.get_dict("model", "modifiers")
         self.combat_values = self.client.get_dict("model", "combat")
 
+        excluded_keys = [
+            "req_level",
+            "req_race",
+            "req_alignment",
+            "req_body_type",
+            "req_body_part",
+        ]
+
         # Recalculate unit prices for each pool
         for pool in (self.traits_pool, self.attributes_pool, self.items_pool):
-            for entity_id, entity in pool.items():
+            for entity_id, entity in pool.iterrows():
                 # Initialize the total value for this entity
                 total_value = 0
 
                 # Iterate through all keys and values in the entity
                 for key, value in entity.items():
+                    if (
+                        not key.startswith("req_")
+                        or not key.startswith("mod_")
+                        or not key.startswith("com_")
+                        or key in excluded_keys
+                    ):
+                        continue
+
                     # Multiply by the corresponding values from the requirements, modifiers, and combat
                     # and add to the total value
-                    total_value += value * self.requirement_values.get(key, 1)
-                    total_value += value * self.modifier_values.get(key, 1)
-                    total_value += value * self.combat_values.get(key, 1)
+                    value = float(value or 0)
+                    # we don't know if the key exists in the dictionary, so we use .get() to return 0 if it doesn't
+                    total_value += value * self.requirement_values.get(key, 0)
+                    total_value += value * self.modifier_values.get(key, 0)
+                    total_value += value * self.combat_values.get(key, 0)
 
                 # Set the total value as a property in the entity
                 entity["value"] = total_value
@@ -370,7 +389,7 @@ class CharacterBuilder:
 
     def recalculate_caps(self):
         self.hp_cap = self.base_stats["base_hp_cap"] + self.level
-        self.sta_cap = self.base_stats["base_sta_cap"] + self.level
+        self.sta_cap = self.base_stats["base_stamina_cap"] + self.level
 
         self.ms_cap = (
             self.base_stats["base_ms_cap"]
@@ -399,7 +418,7 @@ class CharacterBuilder:
                     else:
                         self.modifiers[modifier_name] = modifier_stacks
 
-    def recalculate_base_stats(self):
+    def recalculate_stats(self):
         # gps - general proficiencies
 
         self.int_gp = self.modifiers.get("mod_int_gp", 0)

@@ -32,8 +32,8 @@ class TestBodyPart(unittest.TestCase):
             self.assertIn(injury_type, self.body_part.damage_counters)
             self.assertEqual(self.body_part.damage_counters[injury_type], 0)
 
-            self.assertIn(injury_type, self.body_part.injury_counter)
-            self.assertEqual(self.body_part.injury_counter[injury_type], 0)
+            self.assertIn(injury_type, self.body_part.injury_counters)
+            self.assertEqual(self.body_part.injury_counters[injury_type], 0)
 
     def test_initialize_injury_config(self):
         for body_part_type in BodyPartType:
@@ -59,7 +59,7 @@ class TestBodyPart(unittest.TestCase):
         # Check if the damage counters are updated correctly
         self.assertEqual(body_part.damage_counters[InjuryType.BLEED], 7)
         # Check if the injury counter is updated correctly
-        self.assertEqual(body_part.injury_counter[InjuryType.BLEED], 1)
+        self.assertEqual(body_part.injury_counters[InjuryType.BLEED], 1)
 
     def test_get_damage_physical_with_armor(self):
         body_part = BodyPart(
@@ -84,7 +84,7 @@ class TestBodyPart(unittest.TestCase):
             expected_damage // body_part.hp_threshold,
             body_part.injury_config[InjuryType.BLEED],
         )
-        self.assertEqual(body_part.injury_counter[InjuryType.BLEED], expected_injuries)
+        self.assertEqual(body_part.injury_counters[InjuryType.BLEED], expected_injuries)
 
     def test_get_damage_elemental(self):
         body_part = BodyPart(
@@ -109,7 +109,7 @@ class TestBodyPart(unittest.TestCase):
             expected_damage // body_part.hp_threshold,
             body_part.injury_config.get(InjuryType.SHOCK, float("inf")),
         )
-        self.assertEqual(body_part.injury_counter[InjuryType.SHOCK], expected_injuries)
+        self.assertEqual(body_part.injury_counters[InjuryType.SHOCK], expected_injuries)
 
     def test_get_damage_concussive(self):
         body_part = BodyPart(
@@ -137,7 +137,7 @@ class TestBodyPart(unittest.TestCase):
             body_part.injury_config.get(InjuryType.CONCUSSION, float("inf")),
         )
         self.assertEqual(
-            body_part.injury_counter[InjuryType.CONCUSSION], expected_injuries
+            body_part.injury_counters[InjuryType.CONCUSSION], expected_injuries
         )
 
     def test_injury_counter_update(self):
@@ -160,7 +160,7 @@ class TestBodyPart(unittest.TestCase):
             4 * (source["damage_value"] + 4) // body_part.hp_threshold,
             body_part.injury_config[InjuryType.BLEED],
         )
-        self.assertEqual(body_part.injury_counter[InjuryType.BLEED], expected_injuries)
+        self.assertEqual(body_part.injury_counters[InjuryType.BLEED], expected_injuries)
 
     def test_damage_at_hp_threshold(self):
         body_part = BodyPart(
@@ -178,7 +178,7 @@ class TestBodyPart(unittest.TestCase):
 
         # Check if the injury counter is updated correctly
         expected_injuries = 1  # Damage meets hp_threshold exactly once
-        self.assertEqual(body_part.injury_counter[InjuryType.BLEED], expected_injuries)
+        self.assertEqual(body_part.injury_counters[InjuryType.BLEED], expected_injuries)
 
     def test_max_injuries_limit(self):
         body_part = BodyPart(
@@ -196,7 +196,7 @@ class TestBodyPart(unittest.TestCase):
         body_part.get_damage(source, dmg_roll=1)
 
         # The injury counter should not exceed the max_injuries limit
-        self.assertEqual(body_part.injury_counter[InjuryType.BLEED], max_injuries)
+        self.assertEqual(body_part.injury_counters[InjuryType.BLEED], max_injuries)
 
 
 if __name__ == "__main__":

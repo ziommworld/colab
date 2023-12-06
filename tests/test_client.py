@@ -1,6 +1,5 @@
 import os
 import unittest
-import gspread
 import pandas as pd
 import warnings
 from src.shared.client import GoogleSheetsClient

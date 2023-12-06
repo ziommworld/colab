@@ -11,7 +11,7 @@ class BodyPart:
 
         # Each injury type will now have its own damage counter
         self.damage_counters = {injury: 0 for injury in InjuryType}
-        self.injury_counter = {injury: 0 for injury in InjuryType}
+        self.injury_counters = {injury: 0 for injury in InjuryType}
 
     def init_injury_config(self):
         # Fetch the injury configuration for the body type and part type from BODY_CONFIGS
@@ -30,7 +30,7 @@ class BodyPart:
             self.damage_counters[injury_type] += damage_after_armor
             max_injuries = self.injury_config.get(injury_type, float("inf"))
             injuries = self.damage_counters[injury_type] // self.hp_threshold
-            self.injury_counter[injury_type] = min(injuries, max_injuries)
+            self.injury_counters[injury_type] = min(injuries, max_injuries)
 
     def determine_injury_type(self, damage_type, abilities):
         """

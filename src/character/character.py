@@ -61,6 +61,7 @@ class Character:
         self.modifiers = config.get("modifiers", [])  # Default empty list of modifiers
 
     def init_action_pool(self):
+        """Initialize the character's action pool."""
         # Initialize an empty dictionary for the action pool
         self.action_pool = {}
 

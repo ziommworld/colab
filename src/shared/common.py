@@ -38,7 +38,7 @@ def tuple_converter(cell):
 
 # ABC -> [ABC]
 # ABC, XYZ -> [ABC, XYZ]
-def list_converter(self, cell):
+def list_converter(cell):
     try:
         # Remove spaces after commas for proper list conversion
         cell = cell.replace(", ", ",")
