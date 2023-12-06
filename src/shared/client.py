@@ -7,7 +7,8 @@ from src.shared.common import list_converter, try_convert_to_numeric, tuple_conv
 
 
 class GoogleSheetsClient:
-    def __init__(self, json_keyfile_path="../env/colab.json"):
+    def __init__(self, json_keyfile_path="../env/colab.json", test_mode=False):
+        self.test_mode = test_mode
         # Try to detect if we are running on Google Colab
         try:
             from google.colab import auth
@@ -143,9 +144,18 @@ class GoogleSheetsClient:
     def get_df(
         self, spreadsheet_name, worksheet_name, tuple_columns=None, list_columns=None
     ):
-        worksheet = self.read_worksheet(spreadsheet_name, worksheet_name)
-        records = worksheet.get_all_records()
-        df = pd.DataFrame(records)
+        if not self.test_mode:
+            worksheet = self.read_worksheet(spreadsheet_name, worksheet_name)
+            records = worksheet.get_all_records()
+            df = pd.DataFrame(records)
+        else:
+            df = pd.read_csv(
+                f"../data/{worksheet_name}.csv", dtype="object", na_filter=False
+            )
+            for col in df.columns:
+                df[col] = df[col].apply(
+                    lambda x: try_convert_to_numeric(x) if x != "" else x
+                )
 
         # Apply tuple converter to specified tuple columns
         if tuple_columns:

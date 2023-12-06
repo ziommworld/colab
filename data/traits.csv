@@ -1,0 +1,61 @@
+id,max_stack,skills,abilities,name,req_level,req_race,req_alignment,req_body_type,req_body_part,req_constitution,req_competence,req_development,req_int_gp,req_str_gp,req_dex_gp,req_tgh_gp,req_wis_gp,req_med_gp,req_sth_gp,req_per_gp,req_dodge_cp,req_block_cp,req_mma_cp,req_finesse_cp,req_crude_cp,req_archery_cp,req_firearms_cp,req_thrown_cp,req_bite_cp,req_claw_cp,req_swipe_cp,req_sting_cp,mod_ms_cap,mod_gp_cap,mod_cp_cap,mod_composure,mod_stamina,mod_ms,mod_evasion,mod_protection,mod_wrestling,mod_total_hp_incr,mod_body_phys_res,mod_body_elem_res,mod_int_gp,mod_str_gp,mod_dex_gp,mod_tgh_gp,mod_wis_gp,mod_med_gp,mod_sth_gp,mod_per_gp,mod_dodge_cp,mod_block_cp,mod_mma_cp,mod_finesse_cp,mod_crude_cp,mod_archery_cp,mod_firearms_cp,mod_thrown_cp,mod_bite_cp,mod_claw_cp,mod_swipe_cp,mod_sting_cp,mod_eq_phys_res,mod_eq_elem_res,mod_weight,mod_ease,com_base_dmg,com_dmg_var,com_dmg_type,com_range_config,com_att_rat,com_armor_pen,com_reload_cycle,com_aoe,com_block_rat,com_quick_act,com_two_hand,com_rel_cp
+healthy,4,,,Healthy,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+frail,1,,,Frail,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+resistant_physical,1,,,Resistant (physical),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+vulnerable_physical,1,,,Vulnerable (physical),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+resistant_elemental,1,,,Resistant (elemental),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+vulnerable_elemental,1,,,Vulnerable (elemental),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+vigorous,1,,,Vigorous,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+feeble,1,,,Feeble,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+swift,1,,,Swift,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+sluggish,1,,,Sluggish,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+elusive,1,,,Elusive,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+bulky,1,,,Bulky,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+composed,1,,,Composed,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+bite,1,,,Bite,,,,,,,,,1,2,1,1,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,12,2,1,1,1,,0,1,,,1,bite_cp
+bleeding_bite,1,,"(bleed, 1)",Bleeding bite,,,,,,,,,2,2,2,1,,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,15,4,1,1,1,,0,1,,,1,bite_cp
+rabid_bites,1,double_shot,,Rabid bites,,,,,,,,,1,2,3,2,,,,,,,,,,,,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,17,6,1,1,1,,0,1,,,1,bite_cp
+lethal_bite,1,,,Lethal bite,,,,,,,,,3,3,2,2,,,,,,,,,,,,,4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,24,12,1,1,1,1,0,1,,,1,bite_cp
+ferocious_bites,1,burst_shot,,Ferocious bites,,,,,,,,,1,2,4,2,,,,,,,,,,,,,4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,17,6,1,1,1,,0,1,,,1,bite_cp
+lacerating_bite,1,,"(bleed, 1)",Lacerating bite,,,,,,,,,4,3,2,2,,,,,,,,,,,,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,19,8,1,1,1,,0,1,,,1,bite_cp
+fierce_bite,1,,,Fierce bite,,,,,,,,,1,3,2,2,,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,21,10,1,1,1,,0,1,,,1,bite_cp
+raging_bite,1,,,Raging bite,,,,,,,,,1,4,2,2,,,,,,,,,,,,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,24,12,1,1,1,,0,1,,,1,bite_cp
+claw,1,,,Claw,,,,,,,,,1,1,2,1,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,10,2,1,1,0,,0,1,,,,claw_cp
+bleeding_claw,1,,"(bleed, 1)",Bleeding claw,,,,,,,,,2,2,2,1,,,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,12,4,1,1,0,,0,1,,,,claw_cp
+blinding_claw,1,,"(blinding, 1)",Blinding claw,,,,,,,,,4,1,2,2,,,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,12,4,1,1,0,,0,1,,,,claw_cp
+tendor_tear,1,,"(immobilzing, 2)",Tendor tear,,,,,,,,,3,2,2,2,,,,,,,,,,,,,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,14,6,1,1,0,,0,1,,,,claw_cp
+fierce_claw,1,,,Fierce claw,,,,,,,,,1,3,2,2,,,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,17,8,1,1,0,,0,1,,,,claw_cp
+raging_claw,1,,,Raging claw,,,,,,,,,1,4,2,2,,,,,,,,,,,,,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,20,10,1,1,0,,0,1,,,,claw_cp
+concussive_claw,1,,"(concussive, 1)",Concussive claw,,,,,,,,,3,3,2,2,,,,,,,,,,,,,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,15,6,1,1,0,,0,1,,,,claw_cp
+lethal_tear,1,,"(bleed, 1)",Lethal tear,,,,,,,,,3,3,3,2,,,,,,,,,,,,,,4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,20,12,1,1,0,1,0,1,,,,claw_cp
+claw_swipe,1,,,Claw swipe,,,,,,,,,3,3,2,2,,,,,,,,,,,,,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,17,10,1,1,0,,0,,,,,claw_cp
+giant_claw_swipe,1,,,Giant claw swipe,,,,,,,,,3,4,3,2,,,,,,,,,,,,,,4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,17,10,1,1,0,,0,,,,,claw_cp
+tail_attack,1,,,Tail attack,,,,,,,,,2,2,2,2,,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,12,4,1,1,-1,,,1,,1,,tail_cp
+tail_swing,1,,,Tail swing,,,,,,,,,3,3,3,3,,,,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,13,6,1,1,-1,,,,,1,,tail_cp
+tail_cleave,1,,,Tail cleave,,,,,,,,,4,4,4,4,,,,,,,,,,,,,,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,15,6,1,1,-1,,,,,1,,tail_cp
+tail_swipe,1,,"(immobilzing, 1)",Tail swipe,,,,,,,,,3,3,3,3,,,,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,15,6,1,1,-1,,,1,,1,,tail_cp
+paralyzing_spinerets,1,,"(collapse, 2)",Paralyzing Spinerets,,,,,,,,,3,3,3,3,,,,,,,,,,,,,,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,0,0,0,1,-1,,,1,,1,,tail_cp
+web,1,,"(grappling, 2)",Web,,,,,,,,,3,1,3,1,,,,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,0,0,0,1,-1,,,1,,1,,tail_cp
+tail_smash,1,,"(concussive, 1)",Tail smash,,,,,,,,,4,5,4,4,,,,,,,,,,,,,,,4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,22,10,1,1,-1,2,,1,,1,,tail_cp
+sting,1,,,Sting,,,,,,,,,2,1,2,1,,,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,13,4,,1,1,1,,1,,,1,sting_cp
+fierce_sting,1,,,Fierce sting,,,,,,,,,2,2,3,2,,,,,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,21,8,,1,1,1,,1,,,1,sting_cp
+bleeding_sting,1,,"(bleed, 1)",Bleeding sting,,,,,,,,,3,2,3,2,,,,,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,19,6,,1,1,1,,1,,,1,sting_cp
+paralyzing_sting,1,,"(collapse, 2)",Paralyzing sting,,,,,,,,,4,2,3,2,,,,,,,,,,,,,,,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,0,0,,1,1,,,1,,,1,sting_cp
+deadly_sting,1,,"(bleed, 2)",Deadly sting,,,,,,,,,4,3,4,3,,,,,,,,,,,,,,,,4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,25,10,,1,1,2,,1,,,1,sting_cp
+punch,1,,,Punch,,,,HUMANOID,,,,,1,2,1,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,11,2,1,1,0,,0,1,,,,mma_cp
+uppercut,1,,,Uppercut,,,,HUMANOID,,,,,1,2,2,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,13,4,1,1,0,,0,1,,,,mma_cp
+kick,1,,,Kick,,,,HUMANOID,,,,,2,2,2,1,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,9,2,1,1,0,,0,1,,1,,mma_cp
+one_two_punch,1,double_shot,,One-two punch,,,,HUMANOID,,,,,2,2,2,1,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,11,2,1,1,1,,0,1,,,1,mma_cp
+flurry_of_blows,1,burst_shot,,Flurry of blows,,,,HUMANOID,,,,,2,2,4,2,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,10,2,1,1,1,,0,1,,,1,mma_cp
+elbow,1,,"(concussive, 1)",Elbow,,,,HUMANOID,,,,,2,2,3,2,,,,,,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,15,6,1,1,-1,,0,1,,1,,mma_cp
+knee,1,,"(concussive, 1)",Knee,,,,HUMANOID,,,,,2,2,3,2,,,,,,,4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,17,8,1,1,-1,,0,1,,1,,mma_cp
+flying_knee,1,,"(concussive, 1)",Flying knee,,,,HUMANOID,,,,,2,3,4,2,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,15,6,1,1,-1,,0,1,,1,,mma_cp
+eye_gouge,1,,"(blinding, 2)",Eye-gouge,,,,,,,,,3,1,2,0,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,0,0,1,1,0,,0,1,,,,mma_cp
+low_kick,1,,"(immobilzing, 1)",Low-kick,,,,HUMANOID,,,,,3,2,2,2,,,,,,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,12,4,1,1,0,,0,1,,1,,mma_cp
+disarming_attack,1,,"(disarm, 1)",Disarming attack,,,,,,,,,3,3,3,1,,,,,,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,14,6,1,1,0,,0,1,,,,mma_cp
+liver_punch,1,,"(collapse, 1)",Liver punch,,,,HUMANOID,,,,,4,3,3,1,,,,,,,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,11,2,1,1,-1,,0,1,,,,mma_cp
+stone_throw,1,,"(concussive, 1)",Stone throw,,,,,,,,,3,3,2,1,,,,1,,,,,,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,11,4,1,1,-1,,1,1,,,,thrown_cp
+boulder_toss,1,,"(concussive, 2)",Boulder toss,,,,,,,,,3,4,2,3,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,22,10,1,,-1,,1,1,,,1,thrown_cp
+spinning_elbow,1,,"(concussive, 2)",Spinning elbow,,,,HUMANOID,,,,,3,3,3,2,,,,,,,4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,16,6,1,1,-1,,0,1,,1,,mma_cp
+roundhouse_kick,1,,"(concussive, 2)",Roundhouse kick,,,,HUMANOID,,,,,3,3,3,2,,,,,,,4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,20,8,1,1,-1,,0,1,,1,,mma_cp
+hindering_presence,1,,"(hindering, 1)",Hindering presence,,,,"BEASTUMANOID, AVIAN, QUADRUPED",,,,,2,2,2,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,

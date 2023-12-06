@@ -1,0 +1,20 @@
+id,ap_cost,sta_cost,cd,value,name,description
+consume,3,0,5,9,Consume,"Regain 12 total hp, by consuming a fallen character"
+lunge,4,2,0,12,Lunge,Defensive reaction (dodge/block) + quick attack
+living_blockade,2,0,3,11,Living blockade,A free of stamina cost block reaction
+battle_maneuver,0,1,0,11,Battle maneuver,Your next action by-passes reactions
+observe,4,0,0,12,Observe,Gain information on the resistances of a character
+enhance,ABILITY,2,0,14,Enhance,"Increase the damage by 2 or resistance (elemental/physical) by 1 of a single item. 
+ Unlimited uses, stamina cost is deducted before round 1."
+bulls_eye,1,1,3,14,Bull's eye,The next attack is a critical strike if it hits.
+throw_weapon,0,0,0,8,Throw weapon,Unlocks short-range for the next attack. The item drops infront of the defender.
+double_shot,3,1,0,10,Double-shot,An attack modality that fires 2 separate attacks with -2 attack rating.
+mark,3,1,0,11,Mark,Attacks against the target have +1 attack rating
+burst_shot,3,2,0,20,Burst-shot,An attack modality that fires 4 separate attacks with -2 attack rating.
+heal,4,1,3,16,Heal,Regain 12hp + MED to a friendly character (injuries remain)
+mend,4,1,3,16,Mend,Remove 1 major injury (limbs up to degree 2) or 3 minor injuries (bleed/concussion) from a friendly character
+serendipity,0,0,4,10,Serendipity,Auto-succeeds the next general proficiency checks
+set_up_down,2,0,0,8,Set-up/down,Set-up/down the item on a micro-tile. Attacks with set-up with it have +2 attack rating
+leap_attack,3,2,3,13,Leap attack,The attacker can spend 6MS and perform a charged attack
+burst_shot,,,,,Burst-shot,
+double_shot,,,,,Double-shot,

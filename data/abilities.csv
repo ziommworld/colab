@@ -1,0 +1,53 @@
+id,value,isPassive,max_stack,name,description,disabled
+durable,10,FALSE,2,Durable,"Whenever an injury state is activated, negate the effects and de-activate this modifier.",FALSE
+titanic,12,FALSE,1,Titanic,"Whenever a 2-handed combat trait/quality/item is used, reduce the slots of the weapon by 1",FALSE
+seasoned,5,FALSE,3,Seasoned?,"Reduces the damage received by critical strikes, charged and head attacks by 1.",FALSE
+culling,6,FALSE,2,Culling,Attacks have +1 accuracy if only 1 enemy is present in a 6m radius (of the defender),FALSE
+alpha,4,FALSE,2,Alpha,Attacks have +1 accuracy if only 1 enemy and no friendly characters are present in a 6m radius (of the defender),TRUE
+bloodthirsty,3,FALSE,3,Bloodthirsty,Deal an additional 3 damage if the attack results in an injury,FALSE
+hovering,12,FALSE,1,Hovering,"Movement by-passses difficult terrain, as well as climbing/scaling/vertical wall checks",FALSE
+flying,20,FALSE,1,Flying,"Can only be targeted at mid/long-range. Whenever this character attacks in melee/reaching range, an attack of opportunity to return the attack is allowed (identical range)",FALSE
+quick,12,FALSE,1,Quick,"Whenever a reaction is used, reduce it's cost by 1AP",FALSE
+hibernate,8,FALSE,1,Hibernate,Increase the stamina recovered during each round of resting by 1.,FALSE
+dynamic,12,FALSE,1,Dynamic,Increase the stamina recovered when Pass is used by 1.,FALSE
+symbiotic,8,FALSE,1,Symbiotic,"Allows a character from another alingment to join the tribe/group (1 character per trait, of level <= of that of the character that has the ability)",FALSE
+fury,14,FALSE,1,Fury,Each active injury modifies a d6 hit die to a d8 (up to 3),FALSE
+murderous,5,FALSE,2,Murderous,Attacks performed by and against the character have +1 attack rating.,FALSE
+haste,12,FALSE,1,Haste,Reduce the cost of equip and unequip to 0 AP.,FALSE
+deft,8,FALSE,1,Deft,Dual wield attacks have +1 attack rating,FALSE
+snipe,10,FALSE,1,Snipe,Extends the long range attacks to 30m,FALSE
+headshot,8,FALSE,1,Headshot,Attacks to the head bodypart have +1 attack rating,FALSE
+stalk,12,FALSE,1,Stalk,Allows a free crouch after an attack,FALSE
+nimble,12,FALSE,1,Nimble,Allows a free 1AP walk after an attack,FALSE
+control,8,FALSE,1,Control,"Allows a character from the Savage/Purist race to join the tribe/group (1 character per trait, of level < of that of the character that has the ability)",FALSE
+pet_handling,8,FALSE,1,Pet-handling,"Allows a character from the Animus race to join the tribe/group (1 character per trait, of level < of that of the character that has the ability)",FALSE
+operate,8,FALSE,1,Operate,"Allows a character from the Z-borg race to join the tribe/group (1 character per trait, of level < of that of the character that has the ability)",FALSE
+slow_fall,5,FALSE,1,Slow-fall,Reduces any fall damage by 8,FALSE
+light_footed,8,FALSE,1,Light-footed,By-passes difficult terrain MS penalties,FALSE
+scale,6,FALSE,1,Scale,Reduce the difficulty of the climb by 1 degree (Vertical Wall -> Climbable wall -> Ladder -> Standard movement),FALSE
+backstab,10,FALSE,1,Backstab,"A Stealth (attacker) - Perception (Defender) contest is checked before each attack. If the attacker wins, the attack has +5 damage.",FALSE
+hide,10,FALSE,1,Hide,"A Perception (attacker) - Stealth (Defender) contest is checked if an enemy wishes to attack you from range (short+). If the attacker looses, the attack is impossible.",FALSE
+teamwork,11,FALSE,1,Teamwork,"If the defender is already engaged in melee/reaching range, increase the attack rating by 1.",FALSE
+lucky,8,FALSE,1,Lucky,Near hit/miss (12 on the resolution score) automatically hits.,FALSE
+quick_fix,12,FALSE,1,Quick-fix,Reloading and Fixing (due to fumble) cost 1 less AP,FALSE
+bleed,6,FALSE,3,Bleed,Succesful attacks apply a stack of Bleeding,FALSE
+concussive,10,FALSE,3,Concussive,Succesful attacks to the head cause a point of concussion (+1 penalty to CPs),FALSE
+blinding,10,FALSE,3,Blinding,Succesful attacks to the head cause Blind for 1 round (+4 penalty to CPs and GPs),FALSE
+immobilizing,7,FALSE,3,Immobilizing,Succesful attacks to a leg cause Immobilize for 1 round (locks movement skills),FALSE
+disarm,8,FALSE,1,Disarm,"Sucessful attacks to the an arm, cause the currently equipped weapon to drop in the microtile infront of the defender",FALSE
+collapse,16,FALSE,3,Collapse,Sucesful attacks to the body incapacitate the target (the character must Skip it's next round),FALSE
+intuit,11,FALSE,1,Intuit,Can use Wisdom as bonus for all general proficiency checks,FALSE
+regeneration,11,FALSE,2,Regeneration,Passing a turn restores 3hp,FALSE
+camouflage,5,FALSE,1,Camouflage,Attacks against you lower the perception of the attacker by 2,FALSE
+grapple,13,FALSE,3,Grapple,Sucesful attacks to the body grapple the target (the character can only use reactions it's next round),FALSE
+obstructive,8,FALSE,1,Obstructive,Affected micro-tiles become a 4*z-level (6m) LoS block,FALSE
+hinder,10,FALSE,3,Hinder,Sucesful attacks to the body hinder the target (the character can only use movement its next round),FALSE
+limited,-40,FALSE,1,Limited,"Upon use, the item dissapears.",FALSE
+incendiary,6,FALSE,3,Incendiary,The effects of the ability/event are triggered once more at the start of the next round,FALSE
+back_fire,-1,TRUE,10,Back-fire,Deals 1 damage to the user upon use,TRUE
+locate,5,FALSE,2,Locate,"When you attack, lower the stealth of the defender by 2",FALSE
+enhance_damage_1,1,FALSE,1,Enhance-damage (1),PREGAME: Raise the damage of a single weapon by 1 in (2 enhancement per weapon),FALSE
+enhance_damage_2,3,FALSE,1,Enhance-damage (2),PREGAME: Raise the damage of a single weapon by 2 (2 enhancement per weapon),FALSE
+enhance_damage_3,5,FALSE,1,Enhance-damage (3),PREGAME: Raise the damage of a single weapon by 3 (2 enhancement per weapon),FALSE
+enhance_attackrating_1,8,FALSE,1,Enhance-attackrating (1),PREGAME: Raise the attack rating of a single weapon by 1 (2 enhancement per weapon),FALSE
+enhance_protection,2,FALSE,3,Enhance-protection,PREGAME: Raise the elemental and physical resistances of a single armor by 1,FALSE

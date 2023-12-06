@@ -4,16 +4,30 @@ from src.shared.client import GoogleSheetsClient
 
 
 class CharacterBuilder:
-    def __init__(self, props):
-        self.set_props(props)
+    def __init__(self, props, test_mode=False):
+        self.test_mode = test_mode
+
         self.init_google_sheets()
         self.init_base_stats()
+
+        self.reset_character(props)
+
+    def reset_character(self, props):
+        self.set_props(props)
         self.init_budgets()
         self.init_build()
         self.recalculate()
 
+    def set_props(self, props):
+        # Raises KeyError if not all required keys are present or invalid
+        self.name = props["name"]
+        self.level = props["level"]
+        self.body_type = props["body_type"]
+        self.race = props["race"]
+        self.alignment = props["alignment"]
+
     def init_google_sheets(self):
-        self.client = GoogleSheetsClient()
+        self.client = GoogleSheetsClient(test_mode=self.test_mode)
 
     def init_base_stats(self):
         self.base_stats = self.client.get_dict("model", "base")
@@ -58,14 +72,6 @@ class CharacterBuilder:
         self.invalid_traits = {}
         self.invalid_attributes = {}
         self.invalid_items = {}
-
-    def set_props(self, props):
-        # Raises KeyError if not all required keys are present or invalid
-        self.name = props["name"]
-        self.level = props["level"]
-        self.body_type = props["body_type"]
-        self.race = props["race"]
-        self.alignment = props["alignment"]
 
     def set_trait(self, trait, stacks):
         if trait.id not in self.traits:
@@ -293,19 +299,19 @@ class CharacterBuilder:
             "model",
             "traits",
             tuple_columns=["abilities"],
-            list_columns=["req_race", "req_alignment", "req_body_type"],
+            list_columns=["req_race", "req_alignment", "req_body_type", "skills"],
         )
         self.attributes_pool = self.client.get_df(
             "model",
             "attributes",
             tuple_columns=["abilities"],
-            list_columns=["req_race", "req_alignment", "req_body_type"],
+            list_columns=["req_race", "req_alignment", "req_body_type", "skills"],
         )
         self.items_pool = self.client.get_df(
             "model",
             "items",
             tuple_columns=["abilities"],
-            list_columns=["req_race", "req_alignment", "req_body_type"],
+            list_columns=["req_race", "req_alignment", "req_body_type", "skills"],
         )
         self.skills = self.client.get_df("model", "skills")
         self.abilities = self.client.get_df("model", "abilities")
