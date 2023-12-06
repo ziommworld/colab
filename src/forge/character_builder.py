@@ -83,12 +83,13 @@ class CharacterBuilder:
 
         # At this point, either the trait is new and requirements are met, or it's an existing trait
         self.traits[trait.id] = stacks
-        if self.revalidate_build():
-            return False, (
-                self.invalid_traits,
-                self.invalid_attributes,
-                self.invalid_items,
-            )
+        self.recalculate()
+        # if self.revalidate_build():
+        #     return False, (
+        #         self.invalid_traits,
+        #         self.invalid_attributes,
+        #         self.invalid_items,
+        #     )
 
         return True, (trait, stacks, self.traits)
 
@@ -161,7 +162,7 @@ class CharacterBuilder:
         requirements = {}
 
         def check_requirement(key, current_value, requirement, is_numeric=True):
-            if requirement is None:
+            if not requirement:
                 return True  # Requirement not applicable
 
             if is_numeric:
@@ -318,7 +319,6 @@ class CharacterBuilder:
 
     def reload_unit_prices(self):
         # Retrieve the latest values
-
         self.requirement_values = self.client.get_dict("model", "requirements")
         self.modifier_values = self.client.get_dict("model", "modifiers")
         self.combat_values = self.client.get_dict("model", "combat")
@@ -329,40 +329,41 @@ class CharacterBuilder:
             "req_alignment",
             "req_body_type",
             "req_body_part",
+            "com_rel_cp",
         ]
 
         # Recalculate unit prices for each pool
         for pool in (self.traits_pool, self.attributes_pool, self.items_pool):
+            # Initialize a list to store total values
+            total_values = []
+
             for entity_id, entity in pool.iterrows():
                 # Initialize the total value for this entity
                 total_value = 0
 
                 # Iterate through all keys and values in the entity
                 for key, value in entity.items():
-                    if (
-                        not key.startswith("req_")
-                        or not key.startswith("mod_")
-                        or not key.startswith("com_")
-                        or key in excluded_keys
+                    if key not in excluded_keys and (
+                        key.startswith("req_")
+                        or key.startswith("mod_")
+                        or key.startswith("com_")
                     ):
-                        continue
+                        value = float(value or 0)
+                        total_value += value * self.requirement_values.get(key, 0)
+                        total_value += value * self.modifier_values.get(key, 0)
+                        total_value += value * self.combat_values.get(key, 0)
 
-                    # Multiply by the corresponding values from the requirements, modifiers, and combat
-                    # and add to the total value
-                    value = float(value or 0)
-                    # we don't know if the key exists in the dictionary, so we use .get() to return 0 if it doesn't
-                    total_value += value * self.requirement_values.get(key, 0)
-                    total_value += value * self.modifier_values.get(key, 0)
-                    total_value += value * self.combat_values.get(key, 0)
+                # Append the total value to the list
+                total_values.append(total_value)
 
-                # Set the total value as a property in the entity
-                entity["value"] = total_value
+            # Add the total values as a new column to the DataFrame
+            pool["value"] = total_values
 
     def recalculate_budgets(self):
         try:
             # Calculate the constitution budget cost for traits
             constitution_budget_cost = sum(
-                self.traits_pool[trait_id]["value"] * count
+                self.traits_pool[self.traits_pool["id"] == trait_id]["value"] * count
                 for trait_id, count in self.traits.items()
             )
             # Subtract the cost from the constitution budget
@@ -416,13 +417,24 @@ class CharacterBuilder:
     def recalculate_modifiers(self):
         self.modifiers = {}
 
-        for entities in [self.traits, self.attributes]:
-            for entity in entities:
-                for modifier_name, modifier_stacks in entity.modifiers.items():
-                    if modifier_name in self.modifiers:
-                        self.modifiers[modifier_name] += modifier_stacks
+        # Helper function to process each entity
+        def process_entity(entity_id, stacks, pool):
+            # Find the row where id matches
+            entity_data = pool[pool["id"] == entity_id].iloc[0]
+            for key, value in entity_data.items():
+                if key.startswith("mod_") and value:
+                    if key in self.modifiers:
+                        self.modifiers[key] += stacks
                     else:
-                        self.modifiers[modifier_name] = modifier_stacks
+                        self.modifiers[key] = stacks
+
+        # Process traits
+        for trait_id, stacks in self.traits.items():
+            process_entity(trait_id, stacks, self.traits_pool)
+
+        # Process attributes
+        for attribute_id, stacks in self.attributes.items():
+            process_entity(attribute_id, stacks, self.attributes_pool)
 
     def recalculate_stats(self):
         # gps - general proficiencies
