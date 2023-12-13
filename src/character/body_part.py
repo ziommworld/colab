@@ -19,11 +19,12 @@ class BodyPart:
         body_part_config = body_config.get(self.body_part_type, {})
         return body_part_config.get("max_injuries", {})
 
-    def receive_damage(self, damage_value, damage_type, abilities):
+    def receive_damage(self, damage_value, damage_type, abilities, armor_penetration=0):
         """
         Process damage received and apply injuries as needed.
         """
-        damage_after_armor = max(0, damage_value - self.armor_value)
+        effective_armor = max(self.armor_value - armor_penetration, 0)
+        damage_after_armor = max(0, damage_value - effective_armor)
         injury_type = self.determine_injury_type(damage_type, abilities)
 
         if injury_type:
