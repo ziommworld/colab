@@ -176,6 +176,8 @@ class CharacterBuilder:
                     ] = False  # Requirement not met (for non-numeric types)
                 return current_value in requirement
 
+        # TODO ADD Cap checks - check for preliminary calculations
+
         # Checking all requirements
         all_requirements_met = all(
             [
@@ -488,6 +490,26 @@ class CharacterBuilder:
         )
         self.body_phys_res = self.modifiers.get("mod_body_phys_res", 0)
         self.body_elem_res = self.modifiers.get("mod_body_elem_res", 0)
+
+    def recalculate_caps(self):
+        self.hp_cap = self.base_stats["base_hp_cap"] + self.level
+        self.sta_cap = self.base_stats["base_sta_cap"] + self.level
+
+        self.ms_cap = (
+            self.base_stats["base_ms_cap"]
+            + self.level // 2
+            + self.modifiers.get("mod_ms_cap", 0)
+        )
+        self.cp_cap = (
+            self.base_stats["base_cp_cap"]
+            + self.level // 2
+            + self.modifiers.get("mod_gp_cap", 0)
+        )
+        self.gp_cap = (
+            self.base_stats["base_gp_cap"]
+            + self.level // 2
+            + self.modifiers.get("mod_cp_cap", 0)
+        )
 
     def recalculate_combat_stats(self):
         pass
