@@ -493,7 +493,7 @@ class CharacterBuilder:
 
     def recalculate_caps(self):
         self.hp_cap = self.base_stats["base_hp_cap"] + self.level
-        self.sta_cap = self.base_stats["base_sta_cap"] + self.level
+        self.sta_cap = self.base_stats["base_stamina_cap"] + self.level
 
         self.ms_cap = (
             self.base_stats["base_ms_cap"]

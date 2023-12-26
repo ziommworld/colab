@@ -13,9 +13,6 @@ class GoogleSheetsClient:
         try:
             from google.colab import auth
 
-            self.is_colab = True
-            self.is_colab = False
-
             # Authenticate using Colab's authentication methods
 
             auth.authenticate_user()

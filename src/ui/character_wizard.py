@@ -1,11 +1,38 @@
-# traits_selection = [key for key in traits.keys()]
-# attributes_selection = [key for key in attributes.keys()]
-# items_selection = [key for key in items.keys()]
+import ipywidgets as widgets
+from IPython.display import display
 
-# traits_df = get_df(client, 'test', 'traits')
-# attributes_df = get_df(client, 'test', 'attributes')
-# items_df = get_df(client, 'test', 'items')
+from src.forge.character_builder import CharacterBuilder
+from src.shared.client import GoogleSheetsClient
+from src.ui.builder.build_selection_tab import render_build_selection
+from src.ui.builder.properties_tab import render_properties
 
-# traits_selection_df = traits_df[traits_df['Name'].isin(traits_selection)]
-# attributes_selection_df = attributes_df[attributes_df['Name'].isin(attributes_selection)]
-# items_selection_df = items_df[items_df['Name'].isin(items_selection)]
+
+class CharacterWizard:
+    def __init__(self, client: GoogleSheetsClient):
+        # builder = CharacterBuilder({}, test_mode=True)
+        self.client = GoogleSheetsClient(test_mode=True)
+        self.render_wizard()
+
+    def render_wizard(self):
+        properties_content = render_properties()
+        traits_content = render_build_selection(self.client)
+        attributes_content = widgets.VBox([widgets.Label("Attributes content here")])
+        items_content = widgets.VBox([widgets.Label("Items content here")])
+        preview_content = widgets.VBox([widgets.Label("Preview content here")])
+
+        tab = widgets.Tab(
+            children=[
+                properties_content,
+                traits_content,
+                attributes_content,
+                items_content,
+                preview_content,
+            ]
+        )
+        tab.set_title(0, "Properties")
+        tab.set_title(1, "Traits")
+        tab.set_title(2, "Attributes")
+        tab.set_title(3, "Items")
+        tab.set_title(4, "Preview")
+
+        display(tab)
