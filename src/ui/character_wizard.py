@@ -15,19 +15,26 @@ class CharacterWizard:
         self.render_wizard()
 
     def render_wizard(self):
-        properties_content = render_properties()
-        traits_content = render_build_selection(self.client)
-        attributes_content = render_build_selection(self.client)
-        items_content = render_build_selection(self.client)
-        preview_content = render_preview()
+        properties_tab = render_properties()
+
+        traits_df = self.client.get_df("model", "traits")
+        traits_tab = render_build_selection(traits_df)
+
+        attributes_df = self.client.get_df("model", "attributes")
+        attributes_tab = render_build_selection(attributes_df)
+
+        items_df = self.client.get_df("model", "items")
+        items_tab = render_build_selection(items_df)
+
+        preview_tab = render_preview()
 
         tab = widgets.Tab(
             children=[
-                properties_content,
-                traits_content,
-                attributes_content,
-                items_content,
-                preview_content,
+                properties_tab,
+                traits_tab,
+                attributes_tab,
+                items_tab,
+                preview_tab,
             ]
         )
         tab.set_title(0, "Properties")
