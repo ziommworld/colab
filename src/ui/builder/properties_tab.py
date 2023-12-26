@@ -48,12 +48,13 @@ def render_properties():
         print(props)  # Just for demonstration
 
     button_layout = widgets.Layout(
-        margin="10px 0px 10px 0px", width="100px"
+        margin="10px 0px 10px 0px", width="120px"
     )  # Top, Right, Bottom, Left
 
     update_button = widgets.Button(
-        description="Update",
-        button_style="primary",
+        description="Update props",
+        icon='check',
+        button_style="info",
         layout=button_layout,
     )
     update_button.on_click(update_props)
@@ -84,6 +85,6 @@ def render_properties():
         ),
     )
 
-    content_hbox = widgets.HBox([left_vbox, right_vbox], layout=flex_layout)
+    properties_hbox = widgets.HBox([left_vbox, right_vbox], layout=flex_layout)
 
-    return content_hbox
+    return properties_hbox

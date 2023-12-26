@@ -1,109 +1,160 @@
-from IPython.display import display
 import ipywidgets as widgets
 
 
 def render_build_selection(client):
-    # Dictionaries to keep track of selectors
-    selectors_dict = {"traits": {}, "attributes": {}, "items": {}}
-
-    # Layouts for each category
+    selectors = []
     traits_layout = widgets.VBox()
 
-    # Add and Remove buttons for each category
-    add_trait_button = widgets.Button(description="Add Trait")
-    add_trait_button.on_click(
-        lambda btn: add_selector(
-            "traits", client, selectors_dict, traits_layout, "traits", "name"
-        )
+    # ===================== ADD =====================
+
+    add_button = widgets.Button(
+        button_style="success",
+        icon="plus",
+        layout=widgets.Layout(
+            width="240px",
+        ),
     )
 
-    remove_trait_button = widgets.Button(description="Remove Trait")
-    remove_trait_button.on_click(
-        lambda btn: remove_selector("traits", selectors_dict, traits_layout)
+    add_button.on_click(
+        lambda btn: add_selector(client, selectors, traits_layout, "traits", "name")
     )
 
-    return widgets.VBox(
-        [widgets.HBox([add_trait_button, remove_trait_button]), traits_layout]
+    add_button_hbox = widgets.HBox(
+        [add_button],
+        layout=widgets.Layout(
+            display="flex",
+            flex_flow="column",
+            align_items="center",
+            width="100%",  # Adjust the percentage as needed for the right column
+            margin="10px 0px 0px 0px",
+        ),
     )
 
+    # ===================== ADD =====================
 
-def generate_selector(id, dataframe, column, selection):
+    selectors_box = widgets.VBox(
+        [traits_layout, add_button_hbox],
+        layout=widgets.Layout(
+            padding="10px",
+        ),
+    )
+
+    return selectors_box
+
+
+def generate_selector(dataframe, column_name):
     has_max_stack = "Stack" in dataframe.columns
-    options = dataframe[column].dropna().unique()
+    options = dataframe[column_name].dropna().unique()
+
+    # ===================== DROPDOWN =====================
 
     dropdown = widgets.Dropdown(
         options=options,
         value=None,
-        description=id,
+        layout=widgets.Layout(flex="2 2 auto", width="200px"),
     )
 
+    # ===================== SLIDER =====================
+
     slider = widgets.IntSlider(
-        value=0,
         min=0,
         max=10,
         step=1,
-        description="Stacks:",
         disabled=not has_max_stack,
-        continuous_update=False,
+        layout=widgets.Layout(
+            flex="1 1 auto", width="auto", margin="0px 40px 0px 40px"
+        ),
     )
 
-    label = widgets.Label(value="")
-    button = widgets.Button(description="Reset")
+    # ===================== RESET =====================
 
-    def update_dropdown(change):
-        if change["type"] == "change" and change["name"] == "value":
-            new_value = change["new"]
-            old_value = change["old"]
-            if new_value is not None:
-                selection[id] = new_value
-                if has_max_stack:
-                    slider.max = dataframe.loc[
-                        dataframe[column] == new_value, "Stack"
-                    ].values[0]
-                    label.value = f"max stack: {slider.max}"
-            if old_value is not None:
-                selection.pop(id, None)
-
-    def reset_dropdown(b):
+    def reset_dropdown(btn):
         dropdown.value = None
-        label.value = ""
         slider.value = 0
-        selection.pop(id, None)
 
-    dropdown.observe(update_dropdown, names="value")
-    button.on_click(reset_dropdown)
+    reset_button = widgets.Button(
+        icon="rotate-left",
+        button_style="warning",
+        layout=widgets.Layout(flex="0 1 auto", width="auto"),
+    )
+    reset_button.on_click(reset_dropdown)
 
-    if has_max_stack:
+    # ===================== REMOVE =====================
 
-        def update_slider(change):
-            if change["type"] == "change" and change["name"] == "value":
-                if dropdown.value:
-                    selection[id] = (dropdown.value, change["new"])
+    remove_button = widgets.Button(
+        icon="ban",
+        button_style="danger",
+        layout=widgets.Layout(flex="0 1 auto", width="auto"),
+    )
+    
+    
+    # TODO UPDATE REMOVE CALLBACK TO REMOVE THE SELECTOR FROM THE LAYOUT AND SELECTION
+    
+    remove_button.on_click(
+        lambda btn: remove_selector()
+    )
 
-        slider.observe(update_slider, names="value")
+    # ===================== SELECTOR =====================
 
-    box = widgets.HBox([dropdown, slider, button, label])
-    return box
+    selector_box = widgets.HBox(
+        [dropdown, slider, reset_button, remove_button],
+        layout=widgets.Layout(
+            display="flex",
+            flex_flow="row",
+            align_items="stretch",
+            width="100%",
+            margin="10px 0px 10px 0px",
+        ),
+    )
+
+    return selector_box
 
 
-def add_selector(category, client, selection_dict, layout, dataframe_name, column_name):
-    selector_id = f"{category}_{len(selection_dict[category]) + 1}"
+def add_selector(client, selectors, layout, dataframe_name, column_name):
     dataframe = client.get_df("model", dataframe_name)
 
     # get_selector now returns a single HBox object, not a tuple
-    selector_widget = generate_selector(
-        selector_id, dataframe, column_name, selection_dict
-    )
+    selector_widget = generate_selector(dataframe, column_name)
 
     # Update the selector dictionary
-    selection_dict[category][selector_id] = selector_widget
+    selectors.append(selector_widget)
 
     # Add the HBox to the VBox children
     layout.children += (selector_widget,)
 
 
-def remove_selector(category, selection_dict, layout):
-    if selection_dict[category]:
-        selector_id = list(selection_dict[category].keys())[-1]
-        del selection_dict[category][selector_id]
-        layout.children = list(layout.children)[:-1]
+def remove_selector(selectors, idx, layout):
+    if len(selectors):
+        selectors.pop(idx)
+        layout.children.pop(idx)
+
+
+# TODO ADD UPDATE CALLBACK TO UPDATE THE SELECTION 
+
+    # def update_dropdown(change):
+    #     if change["type"] == "change" and change["name"] == "value":
+    #         new_value = change["new"]
+    #         old_value = change["old"]
+    #         if new_value is not None:
+    #             selection[id] = new_value
+    #             if has_max_stack:
+    #                 slider.max = dataframe.loc[
+    #                     dataframe[column] == new_value, "Stack"
+    #                 ].values[0]
+    #                 label.value = f"max stack: {slider.max}"
+    #         if old_value is not None:
+    #             selection.pop(id, None)
+
+    # dropdown.observe(update_dropdown, names="value")
+
+    # if has_max_stack:
+
+    #     def update_slider(change):
+    #         if change["type"] == "change" and change["name"] == "value":
+    #             if dropdown.value:
+    #                 selection[id] = (dropdown.value, change["new"])
+
+    #     slider.observe(update_slider, names="value")
+
+    # box = widgets.HBox([dropdown, slider, button, label])
+    # return box

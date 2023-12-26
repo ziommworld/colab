@@ -4,6 +4,7 @@ from IPython.display import display
 from src.forge.character_builder import CharacterBuilder
 from src.shared.client import GoogleSheetsClient
 from src.ui.builder.build_selection_tab import render_build_selection
+from src.ui.builder.preview_tab import render_preview
 from src.ui.builder.properties_tab import render_properties
 
 
@@ -16,9 +17,9 @@ class CharacterWizard:
     def render_wizard(self):
         properties_content = render_properties()
         traits_content = render_build_selection(self.client)
-        attributes_content = widgets.VBox([widgets.Label("Attributes content here")])
-        items_content = widgets.VBox([widgets.Label("Items content here")])
-        preview_content = widgets.VBox([widgets.Label("Preview content here")])
+        attributes_content = render_build_selection(self.client)
+        items_content = render_build_selection(self.client)
+        preview_content = render_preview()
 
         tab = widgets.Tab(
             children=[
