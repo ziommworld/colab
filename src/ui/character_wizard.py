@@ -1,7 +1,7 @@
 import ipywidgets as widgets
 from IPython.display import display
-from src import BodyType, RaceAlignment
 
+from src import BodyType, RaceAlignment
 from src.forge.character_builder import CharacterBuilder
 from src.shared.client import GoogleSheetsClient
 from src.ui.builder.build_selection_tab import render_build_selection
@@ -36,7 +36,15 @@ class CharacterWizard:
         items_df = self.client.get_df("model", "items")
         items_tab = render_build_selection(items_df)
 
-        preview_tab = render_preview()
+        preview_tab, sync_outputs = render_preview()
+
+        sync_outputs["Stats"]("Stats")
+        sync_outputs["Caps"]("Caps")
+        sync_outputs["Budgets"]("Budgets")
+        sync_outputs["GPs"]("GPs")
+        sync_outputs["CPs"]("CPs")
+        sync_outputs["Skills"]("Skills")
+        sync_outputs["Abilities"]("Abilities")
 
         tab = widgets.Tab(
             children=[
