@@ -1,5 +1,6 @@
 import ipywidgets as widgets
 from IPython.display import display
+from src import BodyType, RaceAlignment
 
 from src.forge.character_builder import CharacterBuilder
 from src.shared.client import GoogleSheetsClient
@@ -15,7 +16,16 @@ class CharacterWizard:
         self.render_wizard()
 
     def render_wizard(self):
-        properties_tab = render_properties()
+        initial_props = {
+            "body_type": BodyType.BEASTUMANOID.name,
+            "level": 1,
+            "race": RaceAlignment.SAVAGE.name,
+            "alignment": RaceAlignment.SAVAGE.name,
+            "name": "Test",
+        }
+        initial_props = None
+
+        properties_tab = render_properties(initial_props)
 
         traits_df = self.client.get_df("model", "traits")
         traits_tab = render_build_selection(traits_df)

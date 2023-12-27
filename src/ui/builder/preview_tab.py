@@ -4,7 +4,6 @@ import ipywidgets as widgets
 def render_preview():
     # Accordion sections titles
     sections = [
-        "Properties",
         "Stats",
         "Caps",
         "Budgets",

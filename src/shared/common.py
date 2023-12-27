@@ -4,6 +4,16 @@ import ast
 import pandas as pd
 
 
+# Function to calculate a simple hash of the properties
+def calculate_hash(dict):
+    # Convert the dictionary into a sorted tuple of tuples
+    dict_tuple = tuple(sorted(dict.items()))
+    # Convert the tuple into a string
+    dict_str = str(dict_tuple)
+    # Return the hash of the string
+    return hash(dict_str)
+
+
 def to_snake_case(name):
     """
     Convert a name to snake_case.
